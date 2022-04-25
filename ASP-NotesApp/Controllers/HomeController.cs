@@ -1,4 +1,7 @@
-﻿using ASP_NotesApp.Models;
+﻿using ASP_NotesApp.DAL;
+using ASP_NotesApp.Models;
+using ASP_NotesApp.Models.Domain;
+using ASP_NotesApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -9,8 +12,7 @@ namespace ASP_NotesApp.Controllers
 
         public IActionResult Index()
         {
-            ViewData["Message"] = "Hello!";
-            return View("Index");
+            return View();
         }
 
         public IActionResult Privacy()

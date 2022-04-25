@@ -1,43 +1,76 @@
 ﻿using ASP_NotesApp.DAL;
 using ASP_NotesApp.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASP_NotesApp.DAL.Repository
 {
-    public class NotesRepository : INotesRepository
+    public class NotesRepository : IGenericRepository<Note>
     {
-        public void Create(Note note)
+        private readonly NoteAppDBContext _context;
+        public NotesRepository(NoteAppDBContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public void Create(Note item)
+        {
+            _context.Notes.Add(item);
+            _context.SaveChanges();
         }
 
-        public Task<Note> CreateAsync(Note note)
+        public async Task<Note> CreateAsync(Note item)
         {
-            throw new NotImplementedException();
+            var result = await _context.Notes.AddAsync(item);
+            _context.SaveChanges();
+            return result.Entity;
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            Note noteToDelete =  Get(id);
+
+            if (noteToDelete != null)
+            {
+                _context.Notes.Remove(noteToDelete);
+                _context.SaveChanges();
+            }
         }
 
         public void DeleteAll()
         {
-            throw new NotImplementedException();
+            _context.Notes.RemoveRange(Get());
         }
 
-        public Task<Note> DeleteAsync(int id)
+        public async Task<Note> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            Note noteToDelete = await GetAsync(id);
+
+            if (noteToDelete != null)
+            {
+                _context.Notes.Remove(noteToDelete);
+                _context.SaveChanges();
+            }
+            return noteToDelete;
         }
 
-        public IEnumerable<Note> GetNotes(string email)
+        public IEnumerable<Note> Get()
         {
-            throw new NotImplementedException();
+            return _context.Notes;
         }
 
-        public void Update(Note note)
+        public Note Get(int id)
         {
-            throw new NotImplementedException();
+            return _context.Notes.FirstOrDefault(u => u.Id == id);
+        }
+
+        public async Task<Note> GetAsync(int id)
+        {
+            return await _context.Notes.FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public void Update(Note item)
+        {
+            _context.Notes.Update(item);
+            _context.SaveChanges();
         }
     }
 }

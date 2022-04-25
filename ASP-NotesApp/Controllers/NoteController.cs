@@ -1,15 +1,18 @@
 ﻿using ASP_NotesApp.DAL;
+using ASP_NotesApp.Models.Domain;
+using ASP_NotesApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP_NotesApp.Controllers
 {
     public class NoteController : Controller
     {
-        INotesRepository notesRepository;
+        private readonly UserAuthService userAuth;
 
-        public NoteController(INotesRepository repository)
+        public NoteController(UserAuthService userAuth, IServiceProvider provider)
         {
-            notesRepository = repository;
+            var usersRepository = (IGenericRepository<Note>)provider.GetService(typeof(IGenericRepository<User>));
+            userAuth = new UserAuthService(usersRepository);
         }
 
         public IActionResult Index()
