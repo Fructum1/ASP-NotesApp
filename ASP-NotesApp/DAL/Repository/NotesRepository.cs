@@ -67,6 +67,11 @@ namespace ASP_NotesApp.DAL.Repository
             return await _context.Notes.FirstOrDefaultAsync(u => u.Id == id);
         }
 
+        public Task<Note> GetByAttributeAsync(string attribute)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Note item)
         {
             _context.Notes.Update(item);

@@ -1,0 +1,25 @@
+﻿@model ASP_NotesApp.Models.ViewModels.LoginViewModel
+
+<h1>Логин</h1>
+
+<form asp-controller="User" asp-action="Login" method="post" asp-anti-forgery="true">
+    <div class="edit-block">
+        <label>Email</label>
+        <input class="custom-controller form-control" style="width: 33%;" asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div class="edit-block">
+        <label>Пароль</label>
+        <input class="custom-controller form-control" style="width: 33%;" type="password" asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div class="edit-block">
+        <label>Подтверждение пароля</label>
+        <input class="custom-controller form-control" style="width: 33%;", type="password" asp-for="ConfirmPassword" />
+        <span asp-validation-for="ConfirmPassword"></span>
+    </div>
+    <div class="error-message" asp-validation-summary="All"></div>
+    <div class="edit-block">
+        <button class="button" type="submit">Войти</button>
+    </div>
+</form>

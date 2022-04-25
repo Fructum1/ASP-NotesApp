@@ -23,7 +23,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddScoped<IGenericRepository<Note>, NotesRepository>();
 builder.Services.AddScoped<IGenericRepository<User>, UserRepository>();
 builder.Services.AddScoped<UserAuthService>();
-
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddRazorPages().AddMvcOptions(option =>
 {
     option.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(

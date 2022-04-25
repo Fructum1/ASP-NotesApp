@@ -1,52 +1,82 @@
 ﻿using ASP_NotesApp.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASP_NotesApp.DAL.Repository
 {
     public class UserRepository : IGenericRepository<User>
     {
-        public void Create(User item)
+        private readonly NoteAppDBContext _context;
+        public UserRepository(NoteAppDBContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<User> CreateAsync(User item)
+        public void Create(User item)
         {
-            throw new NotImplementedException();
+            _context.Users.Add(item);
+            _context.SaveChanges();
+        }
+
+        public async Task<User> CreateAsync(User item)
+        {
+            var result = await _context.Users.AddAsync(item);
+            _context.SaveChanges();
+            return result.Entity;
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            User userToDelete = Get(id);
+
+            if (userToDelete != null)
+            {
+                _context.Users.Remove(userToDelete);
+                _context.SaveChanges();
+            }
         }
 
         public void DeleteAll()
         {
-            throw new NotImplementedException();
+            _context.Users.RemoveRange(Get());
         }
 
-        public Task<User> DeleteAsync(int id)
+        public async Task<User> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            User userToDelete = await GetAsync(id);
+
+            if (userToDelete != null)
+            {
+                _context.Users.Remove(userToDelete);
+                _context.SaveChanges();
+            }
+
+            return userToDelete;
         }
 
         public IEnumerable<User> Get()
         {
-            throw new NotImplementedException();
+            return _context.Users.Include(u => u.Notes);
         }
 
         public User Get(int id)
         {
-            throw new NotImplementedException();
+            return _context.Users.Include(u => u.Notes).FirstOrDefault(u => u.Id == id);
         }
 
-        public Task<User> GetAsync(int id)
+        public async Task<User> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Users.Include(n => n.Notes).FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task<User> GetByAttributeAsync(string attribute)
+        {
+            return await _context.Users.Include(n => n.Notes).FirstOrDefaultAsync(u => u.Email == attribute);
         }
 
         public void Update(User item)
         {
-            throw new NotImplementedException();
+            _context.Users.Update(item);
+            _context.SaveChanges();
         }
     }
 }

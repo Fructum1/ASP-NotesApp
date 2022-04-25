@@ -1,0 +1,36 @@
+﻿@model ASP_NotesApp.Models.ViewModels.RegisterViewModel
+
+<form asp-controller="User" asp-action="Register" asp-antiforgery="true">
+    <div class="register-form">
+        <h2 class="title register">Регистрация</h2>
+        <div class="edit-block row-elements">
+            <input class="custom-controller form-control register" placeholder="Фамилия"  type="text" asp-for="Surname"/>
+            <span asp-validation-for="Surname" />
+        </div>
+        <div class="edit-block row-elements">
+            <input class="custom-controller form-control register" placeholder="Имя" type="text" asp-for="Name"/>
+            <span asp-validation-for="Name" />
+        </div>
+        <div class="edit-block">
+            <input class="custom-controller form-control register" placeholder="Отчество" type="text" asp-for="Patronymic" />
+            <span asp-validation-for="Patronymic" />
+        </div>
+        <div class="edit-block">
+            <input class="email form-control register" placeholder="Email" type="text" asp-for="Email" />
+            <span asp-validation-for="Email" />
+        </div>
+        <div class="edit-block">        
+            <input class="password form-control register" placeholder="Пароль" type="password" asp-for="Password" />
+            <span asp-validation-for="Password" />
+        </div>
+        <div class="edit-block">
+            <input class="password form-control register" placeholder="Подтверждение пароля" type="password" asp-for="ConfirmPassword" />
+            <span asp-validation-for="ConfirmPassword" />
+        </div>
+        <div class="error-message" asp-validation-summary="All"></div>
+        <div class="edit-block button">
+            <input class="button register" type="submit" value="Регистрация" />
+        </div>
+        <p class="register-notes">Если вы уже зарегистрированы - нажмите <a asp-controller="User" asp-action="Login">сюда</a></p>
+    </div>
+</form>

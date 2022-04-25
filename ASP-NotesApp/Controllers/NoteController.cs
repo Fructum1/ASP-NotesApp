@@ -9,10 +9,9 @@ namespace ASP_NotesApp.Controllers
     {
         private readonly UserAuthService userAuth;
 
-        public NoteController(UserAuthService userAuth, IServiceProvider provider)
+        public NoteController(UserAuthService userAuth)
         {
-            var usersRepository = (IGenericRepository<Note>)provider.GetService(typeof(IGenericRepository<User>));
-            userAuth = new UserAuthService(usersRepository);
+            userAuth = userAuth;
         }
 
         public IActionResult Index()

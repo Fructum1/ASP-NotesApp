@@ -9,6 +9,7 @@ namespace ASP_NotesApp.DAL
         void Update(T item);
         IEnumerable<T> Get();
         T Get(int id);
+        Task<T> GetByAttributeAsync(string attribute);
         Task<T> GetAsync(int id);
         void Delete(int id);
         Task<T> DeleteAsync(int id);

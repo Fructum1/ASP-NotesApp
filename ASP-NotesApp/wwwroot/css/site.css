@@ -15,4 +15,61 @@ html {
 
 body {
   margin-bottom: 60px;
+  background: url(../img/background.jpg) no-repeat;
+  background-size: cover;
+}
+
+.email.form-control {
+    background: url(../img/emai.png) no-repeat scroll 7px 7px;
+    background-size: 7%;
+    background-color: white;
+    padding-left: 30px;
+}
+
+.password.form-control {
+    background: url(../img/password.png) no-repeat scroll 7px 7px;
+    background-color: white;
+    background-size: 6%;
+    padding-left: 30px;
+}
+
+.form-control.register {
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    width: 70%;
+}
+
+.button.register {
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    border-radius: 100px;
+    margin-bottom: 10px;
+    padding: 2% 20% 2% 20%;
+}
+
+.edit-block {
+    padding-top: 15px;
+}
+
+.register-form {
+    background-color: #ff31f34d;
+    border-radius: 30px;
+    display: block;
+    margin: 10% auto 10% auto;
+    width: 40%;
+}
+
+.title.register {
+    text-align: center;
+    padding: 5%;
+}
+
+.edit-block.button {
+    padding: 5%;
+}
+
+.register-notes {
+    text-align: center;
 }
