@@ -23,14 +23,14 @@ body {
     background: url(../img/emai.png) no-repeat scroll 7px 7px;
     background-size: 7%;
     background-color: white;
-    padding-left: 30px;
+    padding-left: 35px;
 }
 
 .password.form-control {
     background: url(../img/password.png) no-repeat scroll 7px 7px;
     background-color: white;
     background-size: 6%;
-    padding-left: 30px;
+    padding-left: 35px;
 }
 
 .form-control.register {
@@ -57,7 +57,7 @@ body {
     background-color: #ff31f34d;
     border-radius: 30px;
     display: block;
-    margin: 10% auto 10% auto;
+    margin: 10% auto 7% auto;
     width: 40%;
 }
 
@@ -72,4 +72,10 @@ body {
 
 .register-notes {
     text-align: center;
+    padding-bottom: 15px;
+}
+.error-message.register {
+    color: red;
+    padding-left: 68px;
+    padding-top: 10px;
 }

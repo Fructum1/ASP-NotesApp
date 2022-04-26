@@ -49,7 +49,7 @@ namespace ASP_NotesApp.Controllers
                     Password = model.Password,
                     ConfirmPassword = model.ConfirmPassword,
                 });
-                return RedirectToAction("Index");
+                return RedirectToAction("Login");
             }
             catch (Exception ex)
             {
