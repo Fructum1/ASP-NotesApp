@@ -3,9 +3,28 @@
 }
 @model IEnumerable<ASP_NotesApp.Models.Domain.Note>
 
-<div class="text-center">
+<div class="container-fluid">
+    <div class="row row-cols-6">
     @foreach(var mod in Model)
     {
-        <p>@mod.NoteBody</p> <p>@mod.Title</p>
+        <div class="col note" onclick="Edit(@mod.Id)">
+            <div class="note-content"> 
+                <p>@mod.Title</p> 
+                <p>@mod.NoteBody</p>
+            </div>
+            <div class="footer-note">
+                <a class="delete-note" onclick="putInCan(@mod.Id)"><img src="/img/archive.svg"></a>
+                <a class="archive-note" onclick="archive(@mod.Id)"><img src="/img/deleteForever.svg"></a>
+            </div>
+        </div>       
     }
+    </div>
+</div>
+
+<div class="modal fade" id="noteModal">
+    <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-body" id="noteModalBodyDiv"></div>             
+        </div>
+    </div>
 </div>

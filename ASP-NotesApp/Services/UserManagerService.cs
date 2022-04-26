@@ -21,9 +21,9 @@ namespace ASP_NotesApp.Services
             }
         }
 
-        public UserManagerService(IGenericRepository<User> repo, IHttpContextAccessor httpContextAccessor)
+        public UserManagerService(IGenericRepository<User> userRepo, IHttpContextAccessor httpContextAccessor)
         {
-            _usersRepository = repo;
+            _usersRepository = userRepo;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -62,6 +62,13 @@ namespace ASP_NotesApp.Services
         public async Task Logout(HttpContext context)
         {
             await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+        public async Task<int> GetLastUserId(string email)
+        {
+            var user = await _usersRepository.GetByAttributeAsync(email);
+
+            return user.Id;
         }
 
         private async Task Authenticate(User user, HttpContext context)

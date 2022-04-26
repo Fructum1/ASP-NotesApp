@@ -16,8 +16,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
         options =>
         {
-            options.LoginPath = new PathString("/Account/Login");
-            options.LogoutPath = new PathString("/Account/Logout");
+            options.LoginPath = new PathString("/User/Login");
+            options.LogoutPath = new PathString("/User/Logout");
             options.AccessDeniedPath = new PathString("/Home/Error");
 
         });
@@ -53,6 +53,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Note}/{action=Index}/{id?}");
 
 app.Run();

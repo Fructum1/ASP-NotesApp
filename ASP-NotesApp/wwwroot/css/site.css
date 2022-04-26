@@ -20,14 +20,14 @@ body {
 }
 
 .email.form-control {
-    background: url(../img/emai.png) no-repeat scroll 7px 7px;
+    background: url(../img/mail.svg) no-repeat scroll 7px 7px;
     background-size: 7%;
     background-color: white;
     padding-left: 35px;
 }
 
 .password.form-control {
-    background: url(../img/password.png) no-repeat scroll 7px 7px;
+    background: url(../img/password.svg) no-repeat scroll 7px 7px;
     background-color: white;
     background-size: 6%;
     padding-left: 35px;
@@ -78,4 +78,70 @@ body {
     color: red;
     padding-left: 68px;
     padding-top: 10px;
+}
+
+.col.note {
+    border-radius: 15px;
+    background-color: white;
+    word-wrap:break-word;
+    margin: 5px;
+    border-style: double;
+    border-width: 2px;
+    border-color: #9f9696;
+}
+
+input[type=checkbox]:before {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-image: url(../img/pin-deactive.svg);
+}
+
+input[type=checkbox]:checked:before {
+    background-image: url(../img/pin-active.svg);
+}
+
+.form-control.pin {
+    width: auto;
+    display: inline-block;
+    box-shadow: none;
+    float: right;
+    border-style: none;
+}
+
+.form-control.title {
+    width: 200%;
+}
+
+.form-group.title {
+    display: inline-block
+}
+
+.form-control.body {
+    margin-top: 10px;
+}
+
+.footer-note {
+    flex: 0 0 auto;
+}
+
+.note-content {
+    flex: 1 0 auto;
+}
+
+.col.note {
+    height: 100%;
+}
+
+.form-control.body {
+    margin-bottom: 5px;
+}
+
+.archive-note {
+    z-index: 999;
+}
+
+.delete-note {
+    z-index: 999;
 }

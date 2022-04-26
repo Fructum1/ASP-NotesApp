@@ -8,14 +8,13 @@ namespace ASP_NotesApp.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UserManagerService _userAuth;
-        private readonly NoteAppDBContext _context;
+        private readonly UserManagerService _userManager;
+        private readonly NoteManagerService _noteManager;
 
-        public UserController(UserManagerService userAuth, NoteAppDBContext context)
+        public UserController(UserManagerService userAuth, NoteManagerService noteManager)
         {
-            _userAuth = userAuth;
-
-            _context = context;
+            _userManager = userAuth;
+            _noteManager = noteManager;
         }
 
         [HttpGet]
@@ -34,9 +33,8 @@ namespace ASP_NotesApp.Controllers
 
             try
             {
-                await _userAuth.RegisterAsync(new DTO.RegisterDTO()
+                await _userManager.RegisterAsync(new DTO.RegisterDTO()
                 {
-                    Id = model.Id,
                     Name = model.Name,
                     Surname = model.Surname,
                     Patronymic = model.Patronymic,
@@ -44,6 +42,8 @@ namespace ASP_NotesApp.Controllers
                     Password = model.Password,
                     ConfirmPassword = model.ConfirmPassword,
                 });
+
+                await _noteManager.CreateDefault(model.Email);
                 return RedirectToAction("Login");
             }
             catch (Exception ex)
@@ -57,7 +57,7 @@ namespace ASP_NotesApp.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
-            if(User.Identity.IsAuthenticated) return RedirectToAction("Index");
+            if (User.Identity.IsAuthenticated) return Redirect("/Note/Index");
 
             return View();
         }
@@ -73,12 +73,12 @@ namespace ASP_NotesApp.Controllers
 
             try
             {
-                await _userAuth.LoginAsync(new DTO.LoginDTO() {
+                await _userManager.LoginAsync(new DTO.LoginDTO() {
                     Email = model.Email,
                     Password = model.Password,
                     ConfirmPassword = model.ConfirmPassword
                 }, HttpContext);
-                return RedirectToAction("Index");
+                return Redirect("/Note/Index");
             }
             catch(Exception ex)
             {
@@ -89,9 +89,9 @@ namespace ASP_NotesApp.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await _userAuth.Logout(HttpContext);
+            await _userManager.Logout(HttpContext);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Login");
         }
     }
 }
