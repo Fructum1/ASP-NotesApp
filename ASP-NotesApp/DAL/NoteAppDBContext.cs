@@ -18,8 +18,7 @@ namespace ASP_NotesApp.DAL
         public DbSet<NoteStatus> NoteStatuses { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Note>().ToTable("Note");
+        {          
             modelBuilder.Entity<NoteStatus>().ToTable("NoteStatus");
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<NoteStatus>().HasData(

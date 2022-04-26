@@ -10,13 +10,12 @@ namespace ASP_NotesApp.Models.Domain
         public int Id { get; set; }
         public string? Title { get; set; }
         public string? NoteBody { get; set; }
-        public DateTime CreationDate { get; set; }
-        public int Creator { get; set; }
+        public DateTime CreationDate { get; set; }       
         public bool Pined { get; set; }
         public int Status { get; set; }
 
-
-        public virtual NoteStatus StatusNavigation { get; set; } = null!;
+        public int UserId { get; set; }
+        public User? User { get; set; }
 
     }
 }

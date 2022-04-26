@@ -24,7 +24,7 @@ namespace ASP_NotesApp.Services
             note.NoteBody = model.NoteBody;
             note.CreationDate = DateTime.Now;
             note.Status = (int)StatusNote.Active;
-            note.Creator = 1;
+            note.UserId = 1;
             note.Pined = model.Pined;
 
             if (NoteValid(note))

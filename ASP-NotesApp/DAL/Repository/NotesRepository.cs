@@ -54,7 +54,7 @@ namespace ASP_NotesApp.DAL.Repository
 
         public async Task<IEnumerable<Note>> Get(int id)
         {
-            return await _context.Notes.Where(u => u.Creator == id).ToListAsync();
+            return await _context.Notes.Where(u => u.UserId == id).ToListAsync();
         }
 
         public async Task<Note> GetAsync(int id)

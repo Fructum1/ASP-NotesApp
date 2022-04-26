@@ -4,6 +4,7 @@ using ASP_NotesApp.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASP_NotesApp.Migrations
 {
     [DbContext(typeof(NoteAppDBContext))]
-    partial class NoteAppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220426095705_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,36 +35,31 @@ namespace ASP_NotesApp.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Creator")
-                        .HasColumnType("int");
-
                     b.Property<string>("NoteBody")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("NoteStatusId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Pined")
                         .HasColumnType("bit");
 
-                    b.Property<int>("StatusNavigationId")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId1")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StatusNavigationId");
+                    b.HasIndex("NoteStatusId");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("Note", (string)null);
+                    b.ToTable("Note");
                 });
 
             modelBuilder.Entity("ASP_NotesApp.Models.Domain.NoteStatus", b =>
@@ -133,21 +130,17 @@ namespace ASP_NotesApp.Migrations
 
             modelBuilder.Entity("ASP_NotesApp.Models.Domain.Note", b =>
                 {
-                    b.HasOne("ASP_NotesApp.Models.Domain.NoteStatus", "StatusNavigation")
+                    b.HasOne("ASP_NotesApp.Models.Domain.NoteStatus", null)
                         .WithMany("Notes")
-                        .HasForeignKey("StatusNavigationId")
+                        .HasForeignKey("NoteStatusId");
+
+                    b.HasOne("ASP_NotesApp.Models.Domain.User", "User")
+                        .WithMany("Notes")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ASP_NotesApp.Models.Domain.User", null)
-                        .WithMany("Notes")
-                        .HasForeignKey("UserId");
-
-                    b.HasOne("ASP_NotesApp.Models.Domain.User", null)
-                        .WithMany("NotesNavigation")
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("StatusNavigation");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ASP_NotesApp.Models.Domain.NoteStatus", b =>
@@ -158,8 +151,6 @@ namespace ASP_NotesApp.Migrations
             modelBuilder.Entity("ASP_NotesApp.Models.Domain.User", b =>
                 {
                     b.Navigation("Notes");
-
-                    b.Navigation("NotesNavigation");
                 });
 #pragma warning restore 612, 618
         }

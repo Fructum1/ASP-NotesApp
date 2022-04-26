@@ -17,9 +17,9 @@ namespace ASP_NotesApp.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var notes = _noteManager.GetAllAsync();
+            var notes = await _noteManager.GetAllAsync();
             return View(notes);
         }
 
@@ -47,7 +47,7 @@ namespace ASP_NotesApp.Controllers
                    Title = model.Title,
                    Pined = model.Pined
                 });
-                return RedirectToAction("Login");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
