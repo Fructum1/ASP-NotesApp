@@ -1,10 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@model ASP_NotesApp.Models.Domain.Note
+@model IEnumerable<ASP_NotesApp.Models.Domain.NoteStatus>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>Model.Title</p>
+    @foreach(var mod in Model)
+    {
+        <p>@mod.Name</p>
+    }
 </div>

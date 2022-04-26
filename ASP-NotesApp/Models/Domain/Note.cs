@@ -1,7 +1,12 @@
-﻿namespace ASP_NotesApp.Models.Domain
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ASP_NotesApp.Models.Domain
 {
+    [Table("Note")]
     public class Note
     {
+        [Key]
         public int Id { get; set; }
         public string? Title { get; set; }
         public string? NoteBody { get; set; }
