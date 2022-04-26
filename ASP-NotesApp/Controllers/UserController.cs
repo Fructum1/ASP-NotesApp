@@ -8,10 +8,10 @@ namespace ASP_NotesApp.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UserAuthService _userAuth;
+        private readonly UserManagerService _userAuth;
         private readonly NoteAppDBContext _context;
 
-        public UserController(UserAuthService userAuth, NoteAppDBContext context)
+        public UserController(UserManagerService userAuth, NoteAppDBContext context)
         {
             _userAuth = userAuth;
 
@@ -42,6 +42,7 @@ namespace ASP_NotesApp.Controllers
             {
                 await _userAuth.RegisterAsync(new DTO.RegisterDTO()
                 {
+                    Id = model.Id,
                     Name = model.Name,
                     Surname = model.Surname,
                     Patronymic = model.Patronymic,

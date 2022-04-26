@@ -7,8 +7,8 @@ namespace ASP_NotesApp.DAL
         void Create(T item);
         Task<T> CreateAsync(T item);
         void Update(T item);
-        IEnumerable<T> Get();
-        T Get(int id);
+        Task<IEnumerable<T>> Get(int id);
+        T GetFirst(int id);
         Task<T> GetByAttributeAsync(string attribute);
         Task<T> GetAsync(int id);
         void Delete(int id);

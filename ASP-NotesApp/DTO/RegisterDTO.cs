@@ -6,7 +6,6 @@ namespace ASP_NotesApp.DTO
     public class RegisterDTO
     {
         public int Id { get; set; }
-
         public string Name { get; set; } = null!;
         public string Surname { get; set; } = null!;
         public string? Patronymic { get; set; }

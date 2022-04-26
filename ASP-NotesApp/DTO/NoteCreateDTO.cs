@@ -1,12 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ASP_NotesApp.Models.Domain
+﻿namespace ASP_NotesApp.DTO
 {
-    [Table("Note")]
-    public class Note
+    public class NoteCreateDTO
     {
-        [Key]
         public int Id { get; set; }
         public string? Title { get; set; }
         public string? NoteBody { get; set; }
@@ -14,9 +9,5 @@ namespace ASP_NotesApp.Models.Domain
         public int Creator { get; set; }
         public bool Pined { get; set; }
         public int Status { get; set; }
-
-
-        public virtual NoteStatus StatusNavigation { get; set; } = null!;
-
     }
 }
