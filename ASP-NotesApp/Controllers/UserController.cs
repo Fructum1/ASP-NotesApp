@@ -57,7 +57,10 @@ namespace ASP_NotesApp.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
-            if (User.Identity.IsAuthenticated) return Redirect("/Note/Index");
+            if (User.Identity.IsAuthenticated && User != null) 
+            { 
+                return Redirect("/Note/Index"); 
+            }
 
             return View();
         }

@@ -9,33 +9,41 @@
     <link rel="stylesheet" href="~/ASP_NotesApp.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Notion</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <header class="header">
+         <div class="d-flex flex-column flex-shrink-0 bg-light vh-100">
+    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center" id="header-menu">
+        <li class="nav-item"> 
+            <a class="nav-link py-3 border-bottom" id="" asp-controller="Note" asp-action="Index"><img src="/img/note.svg" /> </a> 
+        </li>
+        <li> 
+            <a class="nav-link py-3 border-bottom" asp-controller="Note" asp-action="Archived"> <img src="/img/archive.svg" /> </a> 
+        </li>
+        <li> 
+            <a class="nav-link py-3 border-bottom" asp-controller="Note" asp-action="TrashCan"> <img src="/img/deleteForever.svg" /> </a> 
+        </li>
+    </ul>
+    <div class="dropdown border-top"> <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false"> <img src="/img/avatar.svg" alt="mdo" width="24" height="24" class="rounded-circle"> </a>
+        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+            <li>
+                <a class="dropdown-item" asp-controller="User" asp-action="Register">Создать аккаунт</a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="#">Профиль</a>
+            </li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" asp-controller="User" asp-action="Logout">Выйти</a></li>
+        </ul>
+    </div>
+</div>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

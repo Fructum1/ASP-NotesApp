@@ -63,6 +63,10 @@ namespace ASP_NotesApp.Services
         public async Task<IEnumerable<Note>> GetAllAsync()
         {
             var notes = await _noteRepository.Get(_userManager.CurrentUserId);
+            if(notes == null)
+            {
+                throw new Exception();
+            }
 
             return notes;
         }
@@ -87,6 +91,10 @@ namespace ASP_NotesApp.Services
         public async Task ArchiveAsync(int id)
         {
             var note = await GetNoteAsync(id);
+            if(note == null)
+            {
+                throw new Exception();
+            }
 
             if (note.Status != (int)StatusNote.Archived) 
             { 
@@ -99,6 +107,10 @@ namespace ASP_NotesApp.Services
         public async Task DeleteAsync(int id)
         {
             var note = await GetNoteAsync(id);
+            if (note == null)
+            {
+                throw new Exception();
+            }
 
             if (note.Status != (int)StatusNote.Deleted) 
             { 
@@ -111,6 +123,10 @@ namespace ASP_NotesApp.Services
         public async Task RemoveAsync(int id)
         {
             var note = await GetNoteAsync(id);
+            if (note == null)
+            {
+                throw new Exception();
+            }
 
             if (note.Status == (int)StatusNote.Deleted)
             {
@@ -118,10 +134,40 @@ namespace ASP_NotesApp.Services
             }
         }
 
+        public async Task UnArchiveAsync(int id)
+        {
+            var note = await GetNoteAsync(id);
+            if (note == null)
+            {
+                throw new Exception();
+            }
+
+            if (note.Status == (int)StatusNote.Archived)
+            {
+                note.Status= (int)StatusNote.Active;
+                _noteRepository.Update(note);
+            }
+        }
+
+        public async Task RecoverFromTrashCan(int id)
+        {
+            var note = await GetNoteAsync(id);
+            if (note == null)
+            {
+                throw new Exception();
+            }
+
+            if (note.Status == (int)StatusNote.Deleted)
+            {
+                note.Status = (int)StatusNote.Active;
+                _noteRepository.Update(note);
+            }
+        }
+
         private bool NoteValid(Note note)
         {
-            if (note.Status == (int)StatusNote.Active &&   
-               (note.NoteBody != null || note.Title != null))
+            if(note.Status == (int)StatusNote.Active &&   
+              (note.NoteBody != null || note.Title != null))
                 return true;
             else return false;
         }

@@ -145,3 +145,51 @@ input[type=checkbox]:checked:before {
 .delete-note {
     z-index: 999;
 }
+
+.note-header {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+
+.nav-link {
+    border-radius: 0px !important;
+    transition: all 0.5s;
+    width: 70px;
+    display: flex;
+    flex-direction: column
+}
+
+    .nav-link small {
+        font-size: 12px
+    }
+
+    .nav-link:hover {
+        background-color: #52525240 !important
+    }
+
+    .nav-link .fa {
+        transition: all 1s;
+        font-size: 20px
+    }
+
+    .nav-link:hover .fa {
+        transform: rotate(360deg)
+    }
+
+.header {
+    position: absolute;
+}
+
+.btn.btn-success.filter {
+    margin-top: 23px;
+}
+
+.note.filter {
+    width: 100%;
+}
+
+.row.row-cols-6.unpinned {
+    margin-top: 25px;
+}

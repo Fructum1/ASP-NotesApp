@@ -20,17 +20,44 @@ namespace ASP_NotesApp.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string attribute)
         {
             var notes = await _noteManager.GetAllAsync();
-            notes = notes.Where(n => n.Status == (int)StatusNote.Active).ToList();
+            notes = notes.Where(n => n.Status == (int)StatusNote.Active);
+
+            if (!String.IsNullOrEmpty(attribute))
+            {
+                notes = notes.Where(n => n?.Title == attribute || n?.NoteBody == attribute);
+            }
+
+            return View(notes);
+        }
+
+        public async Task<IActionResult> Archived(string attribute)
+        {
+            var notes = await _noteManager.GetAllAsync();
+            notes = notes.Where(n => n.Status == (int)StatusNote.Archived);
+
+            if (!String.IsNullOrEmpty(attribute))
+            {
+                notes = notes.Where(n => n?.Title == attribute || n?.NoteBody == attribute);
+            }
+
+            return View(notes);
+        }
+
+        public async Task<IActionResult> TrashCan()
+        {
+            var notes = await _noteManager.GetAllAsync();
+            notes = notes.Where(_n => _n.Status == (int)StatusNote.Deleted);
+
             return View(notes);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return PartialView("_Create");
         }
 
         [HttpPost]
@@ -65,7 +92,6 @@ namespace ASP_NotesApp.Controllers
         {
             var note = await _noteManager.GetNoteAsync(id);
 
-
             return PartialView("_Edit",note);
         }
 
@@ -97,7 +123,62 @@ namespace ASP_NotesApp.Controllers
 
         public async Task Delete(int id)
         {
-            await _noteManager.DeleteAsync(id);
+            try
+            {
+                await _noteManager.DeleteAsync(id);
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+        }
+
+        public async Task Archive(int id)
+        {
+            try
+            {
+                await _noteManager.ArchiveAsync(id);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+        }
+
+        public async Task UnArchive(int id)
+        {
+            try
+            {
+                await _noteManager.UnArchiveAsync(id);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+        }
+
+        public async Task DeleteFromTrashCan(int id)
+        {
+            try
+            {
+                await _noteManager.RemoveAsync(id);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+        }
+
+        public async Task RecoverFromTrashCan(int id)
+        {
+            try
+            {
+                await _noteManager.RecoverFromTrashCan(id);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
         }
     }
 }

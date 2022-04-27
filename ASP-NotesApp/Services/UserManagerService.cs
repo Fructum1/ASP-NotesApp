@@ -67,6 +67,10 @@ namespace ASP_NotesApp.Services
         public async Task<int> GetLastUserId(string email)
         {
             var user = await _usersRepository.GetByAttributeAsync(email);
+            if (user == null)
+            {
+                throw new Exception();
+            }
 
             return user.Id;
         }

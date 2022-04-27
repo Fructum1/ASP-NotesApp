@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model IEnumerable<ASP_NotesApp.Models.Domain.Note>
+
+<div class="container-fluid">
+    <div class="row row-cols-6">
+    @foreach(var mod in Model)
+    {
+        <div class="col note">
+            <div class="note-content"> 
+                <p>@mod.Title</p> 
+                <p>@mod.NoteBody</p>
+            </div>
+            <div class="footer-note">
+                <a class="delete-note" onclick="deleteFromTrashCan(@mod.Id)"><img src="/img/deleteForever.svg"></a>
+                <a class="recover-note" onclick="recoverFromTrashCan(@mod.Id)"><img src="/img/recover.svg"></a>
+            </div>
+        </div>       
+    }
+    </div>
+</div>

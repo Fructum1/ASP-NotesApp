@@ -1,4 +1,7 @@
 ﻿@model ASP_NotesApp.Models.ViewModels.RegisterViewModel
+@{
+ Layout = "~/Views/Shared/_LayoutUnauth.cshtml";
+}
 
 <form asp-controller="User" asp-action="Register" asp-antiforgery="true">
     <div class="register-form">
