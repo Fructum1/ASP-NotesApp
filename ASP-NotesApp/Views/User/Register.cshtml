@@ -7,16 +7,12 @@
     <div class="register-form">
         <h2 class="title register">Регистрация</h2>
         <div class="edit-block row-elements">
-            <input class="custom-controller form-control register" placeholder="Фамилия"  type="text" asp-for="Surname"/>
+            <input class="name form-control register" placeholder="Фамилия"  type="text" asp-for="Surname"/>
             <span asp-validation-for="Surname" />
         </div>
         <div class="edit-block row-elements">
-            <input class="custom-controller form-control register" placeholder="Имя" type="text" asp-for="Name"/>
+            <input class="name form-control register" placeholder="Имя" type="text" asp-for="Name"/>
             <span asp-validation-for="Name" />
-        </div>
-        <div class="edit-block">
-            <input class="custom-controller form-control register" placeholder="Отчество" type="text" asp-for="Patronymic" />
-            <span asp-validation-for="Patronymic" />
         </div>
         <div class="edit-block">
             <input class="email form-control register" placeholder="Email" type="text" asp-for="Email" />

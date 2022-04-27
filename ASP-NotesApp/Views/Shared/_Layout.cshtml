@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,33 +11,35 @@
 </head>
 <body>
     <header class="header">
-         <div class="d-flex flex-column flex-shrink-0 bg-light vh-100">
-    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center" id="header-menu">
-        <li class="nav-item"> 
-            <a class="nav-link py-3 border-bottom" id="" asp-controller="Note" asp-action="Index"><img src="/img/note.svg" /> </a> 
-        </li>
-        <li> 
-            <a class="nav-link py-3 border-bottom" asp-controller="Note" asp-action="Archived"> <img src="/img/archive.svg" /> </a> 
-        </li>
-        <li> 
-            <a class="nav-link py-3 border-bottom" asp-controller="Note" asp-action="TrashCan"> <img src="/img/deleteForever.svg" /> </a> 
-        </li>
-    </ul>
-    <div class="dropdown border-top"> <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false"> <img src="/img/avatar.svg" alt="mdo" width="24" height="24" class="rounded-circle"> </a>
-        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-            <li>
-                <a class="dropdown-item" asp-controller="User" asp-action="Register">Создать аккаунт</a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="#">Профиль</a>
-            </li>
-            <li>
-                <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" asp-controller="User" asp-action="Logout">Выйти</a></li>
-        </ul>
-    </div>
-</div>
+        <div class="d-flex flex-column flex-shrink-0 bg-light vh-100">
+            <ul class="nav nav-pills nav-flush flex-column mb-auto text-center" id="header-menu">
+                <li class="nav-item"> 
+                    <a class="nav-link py-3 border-bottom" id="" asp-controller="Note" asp-action="Index"><img src="/img/note.svg" /> </a> 
+                    </li>
+                <li> 
+                    <a class="nav-link py-3 border-bottom" asp-controller="Note" asp-action="Archived"> <img src="/img/archive.svg" /> </a> 
+                </li>
+                <li> 
+                    <a class="nav-link py-3 border-bottom" asp-controller="Note" asp-action="TrashCan"> <img src="/img/deleteForever.svg" /> </a> 
+                </li>
+            </ul>
+            <div class="dropdown border-top"> <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false"> <img src="/img/avatar.svg" alt="mdo" width="24" height="24" class="rounded-circle"> </a>
+            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+                <li>
+                    <a class="dropdown-item" asp-controller="User" asp-action="Register">Создать аккаунт</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-controller="User" asp-action="Edit" asp-route-id="@User.FindFirst(ClaimTypes.NameIdentifier).Value">Профиль</a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-controller="User" asp-action="Logout">Выйти</a>
+                </li>
+            </ul>
+            </div>
+        </div>
     </header>
 
     <div class="container">
@@ -49,4 +52,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

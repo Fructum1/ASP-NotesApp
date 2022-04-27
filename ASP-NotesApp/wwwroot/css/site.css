@@ -193,3 +193,16 @@ input[type=checkbox]:checked:before {
 .row.row-cols-6.unpinned {
     margin-top: 25px;
 }
+
+.name.form-control.register {
+    background: url(../img/avatar.svg) no-repeat scroll 7px 7px;
+    background-size: 7%;
+    background-color: white;
+    padding-left: 35px;
+}
+
+.edit-user {
+    display: flex;
+    justify-content: center;
+    padding-top: 25%;
+}

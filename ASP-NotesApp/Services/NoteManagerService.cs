@@ -1,5 +1,6 @@
 ﻿using ASP_NotesApp.DAL;
 using ASP_NotesApp.DTO;
+using ASP_NotesApp.Extensions.Exceptions;
 using ASP_NotesApp.Models.Domain;
 using ASP_NotesApp.Models.Enum;
 
@@ -32,7 +33,7 @@ namespace ASP_NotesApp.Services
                 return await _noteRepository.CreateAsync(note);
             }
 
-            else throw new Exception();
+            else throw new Exception("Неопознанная ошибка");
         }
 
         public async Task CreateDefault(string email)
@@ -54,7 +55,7 @@ namespace ASP_NotesApp.Services
             Note note = await _noteRepository.GetAsync(id);
             if (note == null) 
             { 
-                throw new Exception(); 
+                throw new NoteNotFoundException(); 
             }
 
             return note;
@@ -65,7 +66,7 @@ namespace ASP_NotesApp.Services
             var notes = await _noteRepository.Get(_userManager.CurrentUserId);
             if(notes == null)
             {
-                throw new Exception();
+                throw new NoteNotFoundException();
             }
 
             return notes;
@@ -84,7 +85,7 @@ namespace ASP_NotesApp.Services
             }
             else
             {
-                throw new Exception();
+                throw new NoteNotFoundException();
             }
         }   
 
@@ -93,7 +94,7 @@ namespace ASP_NotesApp.Services
             var note = await GetNoteAsync(id);
             if(note == null)
             {
-                throw new Exception();
+                throw new NoteNotFoundException();
             }
 
             if (note.Status != (int)StatusNote.Archived) 
@@ -109,7 +110,7 @@ namespace ASP_NotesApp.Services
             var note = await GetNoteAsync(id);
             if (note == null)
             {
-                throw new Exception();
+                throw new NoteNotFoundException();
             }
 
             if (note.Status != (int)StatusNote.Deleted) 
@@ -125,7 +126,7 @@ namespace ASP_NotesApp.Services
             var note = await GetNoteAsync(id);
             if (note == null)
             {
-                throw new Exception();
+                throw new NoteNotFoundException();
             }
 
             if (note.Status == (int)StatusNote.Deleted)
@@ -139,7 +140,7 @@ namespace ASP_NotesApp.Services
             var note = await GetNoteAsync(id);
             if (note == null)
             {
-                throw new Exception();
+                throw new NoteNotFoundException();
             }
 
             if (note.Status == (int)StatusNote.Archived)
@@ -154,7 +155,7 @@ namespace ASP_NotesApp.Services
             var note = await GetNoteAsync(id);
             if (note == null)
             {
-                throw new Exception();
+                throw new NoteNotFoundException();
             }
 
             if (note.Status == (int)StatusNote.Deleted)

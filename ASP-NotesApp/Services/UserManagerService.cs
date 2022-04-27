@@ -5,6 +5,8 @@ using System.Web.Helpers;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using ASP_NotesApp.Extensions.Exceptions;
+using ASP_NotesApp.DTO.User;
 
 namespace ASP_NotesApp.Services
 {
@@ -42,7 +44,7 @@ namespace ASP_NotesApp.Services
             }
             else
             {
-                throw new Exception();
+                throw new UserRegisterException();
             }
         }
 
@@ -55,7 +57,7 @@ namespace ASP_NotesApp.Services
             }
             else
             {
-                throw new Exception();
+                throw new Exception("Неопознанная ошибка");
             }
         }
 
@@ -69,10 +71,46 @@ namespace ASP_NotesApp.Services
             var user = await _usersRepository.GetByAttributeAsync(email);
             if (user == null)
             {
-                throw new Exception();
+                throw new UserNotFoundException();
             }
 
             return user.Id;
+        }
+        public async Task EditAsync(UserEditDTO model, int id)
+        {
+            var user = await _usersRepository.GetAsync(id);
+            if (user.Email == model.Email)
+            {
+                user.Name = model.Name;
+                user.Surname = model.Surname;
+                user.Email = model.Email;
+                user.Patronymic = model.Patronymic;
+
+                _usersRepository.Update(user);
+            }
+            else if(!await UserExist(model.Email))
+            {
+                user.Name = model.Name;
+                user.Surname = model.Surname;
+                user.Email = model.Email;
+                user.Patronymic = model.Patronymic;
+
+                _usersRepository.Update(user);
+            }
+            else
+            {
+                throw new UserNotFoundException();
+            }
+        }
+        public async Task<User> GetUserAsync(int id)
+        {
+            User user = await _usersRepository.GetAsync(id);
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
+
+            return user;
         }
 
         private async Task Authenticate(User user, HttpContext context)

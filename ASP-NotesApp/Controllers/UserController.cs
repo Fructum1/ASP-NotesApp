@@ -1,5 +1,5 @@
-﻿using ASP_NotesApp.DAL;
-using ASP_NotesApp.Models.ViewModels;
+﻿using ASP_NotesApp.Models.ViewModels;
+using ASP_NotesApp.Models.ViewModels.User;
 using ASP_NotesApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +37,6 @@ namespace ASP_NotesApp.Controllers
                 {
                     Name = model.Name,
                     Surname = model.Surname,
-                    Patronymic = model.Patronymic,
                     Email = model.Email,
                     Password = model.Password,
                     ConfirmPassword = model.ConfirmPassword,
@@ -95,6 +94,40 @@ namespace ASP_NotesApp.Controllers
             await _userManager.Logout(HttpContext);
 
             return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var user = await _userManager.GetUserAsync(id);
+
+            return View("Edit", user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserEditViewModel model, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            try
+            {
+                await _userManager.EditAsync(new DTO.User.UserEditDTO()
+                {
+                    Email = model.Email,
+                    Surname = model.Surname,
+                    Name = model.Name,
+                    Patronymic = model.Patronymic
+                }, model.Id);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View();
+            }
         }
     }
 }

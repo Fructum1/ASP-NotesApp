@@ -1,6 +1,4 @@
-﻿using ASP_NotesApp.DAL;
-using ASP_NotesApp.Models.Domain;
-using ASP_NotesApp.Models.Enum;
+﻿using ASP_NotesApp.Models.Enum;
 using ASP_NotesApp.Models.ViewModels.Note;
 using ASP_NotesApp.Services;
 using Microsoft.AspNetCore.Authorization;

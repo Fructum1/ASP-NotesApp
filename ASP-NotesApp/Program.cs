@@ -18,7 +18,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         {
             options.LoginPath = new PathString("/User/Login");
             options.LogoutPath = new PathString("/User/Logout");
-            options.AccessDeniedPath = new PathString("/Home/Error");
+            options.AccessDeniedPath = new PathString("/Error");
 
         });
 builder.Services.AddScoped<IGenericRepository<Note>, NotesRepository>();

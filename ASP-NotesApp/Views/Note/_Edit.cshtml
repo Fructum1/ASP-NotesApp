@@ -1,20 +1,20 @@
 ﻿@model ASP_NotesApp.Models.Domain.Note
 
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-                <input type="checkbox" asp-for="Pined" class="form-control pin" />
-                <div class="form-group title">
-                    <input asp-for="Title" class="form-control title"  placeholder="Введите заголовок" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <textarea asp-for="NoteBody" class="form-control body" placeholder="Введите текст"></textarea>
-                    <span asp-validation-for="NoteBody" class="text-danger"></span>
-                </div>
-               
-                <div class="modal-user-buttons">
-                    <input type="submit" value="Сохранить" class="btn btn-success" />
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Отмена</button>
-                </div>     
-        </form>
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <input type="checkbox" asp-for="Pined" class="form-control pin" />
+    <div class="form-group title">
+        <input asp-for="Title" class="form-control title"  placeholder="Введите заголовок" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <textarea asp-for="NoteBody" class="form-control body" placeholder="Введите текст"></textarea>
+        <span asp-validation-for="NoteBody" class="text-danger"></span>
+    </div>
+
+    <div class="modal-user-buttons">
+        <input type="submit" value="Сохранить" class="btn btn-success" />
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Отмена</button>
+    </div>     
+</form>

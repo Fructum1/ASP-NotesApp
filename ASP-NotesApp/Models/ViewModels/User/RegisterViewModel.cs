@@ -15,9 +15,6 @@ namespace ASP_NotesApp.Models.ViewModels
         [StringLength(50, MinimumLength = 3)]
         public string Surname { get; set; } = null!;
 
-        [StringLength(50, MinimumLength = 3)]
-        public string? Patronymic { get; set; }
-
         [Required(ErrorMessage = "Введите почтовый ящик")]
         [EmailAddress]
         [StringLength(150)]

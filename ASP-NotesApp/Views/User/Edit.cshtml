@@ -1,0 +1,33 @@
+﻿@model ASP_NotesApp.Models.Domain.User
+
+<div class="edit-user">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group title">
+            <label asp-for="Name" class="control-label" />
+            <input asp-for="Name" class="form-control title"  />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Surname" class="control-label" />
+            <input asp-for="Surname" class="form-control body" />
+            <span asp-validation-for="Surname" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Patronymic" class="control-label" />
+            <input asp-for="Patronymic" class="form-control body" />
+            <span asp-validation-for="Patronymic" class="text-danger"></span>
+        </div>
+         <div class="form-group">
+            <label asp-for="Email" class="control-label" />
+            <input asp-for="Email" class="form-control body" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="modal-user-buttons">
+            <input type="submit" value="Сохранить" class="btn btn-success" />
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Отмена</button>
+        </div>     
+    </form>
+</div>
