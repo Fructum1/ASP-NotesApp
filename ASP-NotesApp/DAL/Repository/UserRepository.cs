@@ -26,7 +26,7 @@ namespace ASP_NotesApp.DAL.Repository
 
         public void Delete(int id)
         {
-            User userToDelete = Get(id);
+            User userToDelete = GetFirst(id);
 
             if (userToDelete != null)
             {
@@ -37,7 +37,7 @@ namespace ASP_NotesApp.DAL.Repository
 
         public void DeleteAll()
         {
-            _context.Users.RemoveRange(Get());
+            _context.Users.RemoveRange(_context.Users.ToList());
         }
 
         public async Task<User> DeleteAsync(int id)
@@ -53,12 +53,12 @@ namespace ASP_NotesApp.DAL.Repository
             return userToDelete;
         }
 
-        public IEnumerable<User> Get()
+        public async Task<IEnumerable<User>> Get(int id)
         {
-            return _context.Users.Include(u => u.Notes);
+            return await _context.Users.Include(u => u.Notes).Where(u => u.Id != id).ToListAsync();
         }
 
-        public User Get(int id)
+        public User GetFirst(int id)
         {
             return _context.Users.Include(u => u.Notes).FirstOrDefault(u => u.Id == id);
         }

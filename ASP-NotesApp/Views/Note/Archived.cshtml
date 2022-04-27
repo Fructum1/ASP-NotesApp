@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model IEnumerable<ASP_NotesApp.Models.Domain.Note>
+
+<div class="container-fluid">
+    <div class="note-header">
+        <form method ="get" class="note filter">
+            <div class ="form-group">
+                <div class="row">
+                    <div class="col-md-8">
+                        <label class="control-label">Поиск по словам: </label>
+                        <input name="attribute" class="form-control" />
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" value="Применить" class="btn btn-success filter">Применить</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row row-cols-6">
+    @foreach(var mod in Model)
+    {
+        <div class="col note">
+            <div class="note-content" onclick="Edit(@mod.Id)"> 
+                <p>@mod.Title</p> 
+                <p>@mod.NoteBody</p>
+            </div>
+            <div class="footer-note">
+                <a class="unArchive-note" onclick="unArchive(@mod.Id)"><img src="/img/unarhive.svg"></a>
+                <a class="delete-note" onclick="putInCan(@mod.Id)"><img src="/img/detele.svg"></a>
+            </div>
+        </div>       
+    }
+    </div>
+</div>
+
+<div class="modal fade" id="noteModal">
+    <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-body" id="noteModalBodyDiv"></div>             
+        </div>
+    </div>
+</div>

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ASP_NotesApp.Migrations
 {
-    public partial class NoteAppDB : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,31 +48,25 @@ namespace ASP_NotesApp.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NoteBody = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<int>(type: "int", nullable: false),
                     Pined = table.Column<bool>(type: "bit", nullable: false),
-                    StatusNavigationId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    UserId1 = table.Column<int>(type: "int", nullable: true)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    NoteStatusId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Note", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Note_NoteStatus_StatusNavigationId",
-                        column: x => x.StatusNavigationId,
+                        name: "FK_Note_NoteStatus_NoteStatusId",
+                        column: x => x.NoteStatusId,
                         principalTable: "NoteStatus",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Note_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Note_User_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "User",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -91,19 +85,14 @@ namespace ASP_NotesApp.Migrations
                 values: new object[] { 3, "Deleted" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Note_StatusNavigationId",
+                name: "IX_Note_NoteStatusId",
                 table: "Note",
-                column: "StatusNavigationId");
+                column: "NoteStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Note_UserId",
                 table: "Note",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Note_UserId1",
-                table: "Note",
-                column: "UserId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

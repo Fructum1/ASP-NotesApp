@@ -26,7 +26,7 @@ namespace ASP_NotesApp.DAL.Repository
 
         public void Delete(int id)
         {
-            Note noteToDelete =  Get(id);
+            Note noteToDelete = GetFirst(id);
 
             if (noteToDelete != null)
             {
@@ -37,7 +37,7 @@ namespace ASP_NotesApp.DAL.Repository
 
         public void DeleteAll()
         {
-            _context.Notes.RemoveRange(Get());
+            _context.Notes.RemoveRange(_context.Notes.ToList());
         }
 
         public async Task<Note> DeleteAsync(int id)
@@ -52,14 +52,9 @@ namespace ASP_NotesApp.DAL.Repository
             return noteToDelete;
         }
 
-        public IEnumerable<Note> Get()
+        public async Task<IEnumerable<Note>> Get(int id)
         {
-            return _context.Notes;
-        }
-
-        public Note Get(int id)
-        {
-            return _context.Notes.FirstOrDefault(u => u.Id == id);
+            return await _context.Notes.Where(u => u.UserId == id).ToListAsync();
         }
 
         public async Task<Note> GetAsync(int id)
@@ -70,6 +65,11 @@ namespace ASP_NotesApp.DAL.Repository
         public Task<Note> GetByAttributeAsync(string attribute)
         {
             throw new NotImplementedException();
+        }
+
+        public Note GetFirst(int id)
+        {
+            return _context.Notes.FirstOrDefault(u => u.Id == id);
         }
 
         public void Update(Note item)

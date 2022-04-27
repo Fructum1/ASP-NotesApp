@@ -1,13 +1,75 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@model IEnumerable<ASP_NotesApp.Models.Domain.NoteStatus>
+@model IEnumerable<ASP_NotesApp.Models.Domain.Note>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid">
+    <div class="note-header">
+        <form method ="get" class="note filter">
+            <div class ="form-group">
+                <div class="row">
+                    <div class="col-md-8">
+                        <label class="control-label">Поиск по словам: </label>
+                        <input name="attribute" class="form-control" />
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" value="Применить" class="btn btn-success filter">Применить</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <a class="button-add" onclick="Create()"><img class="note-image" onclick="clickOnCreate" src="/img/add.svg"></a>
+    </div>
+
+    @if(Model.Any(n => n.Pined == true))
+    {
+        <h2>Закрепленные</h2>
+    }
+    <div class="row row-cols-6">
     @foreach(var mod in Model)
     {
-        <p>@mod.Name</p>
+            @if (mod.Pined == true)
+            {
+                <div class="col note">
+                    <div class="note-content" onclick="Edit(@mod.Id)"> 
+                        <p>@mod.Title</p> 
+                        <p>@mod.NoteBody</p>
+                    </div>
+                    <div class="footer-note">
+                        <a class="delete-note" onclick="putInCan(@mod.Id)"><img src="/img/deleteForever.svg"></a>
+                        <a class="archive-note" onclick="archive(@mod.Id)"><img src="/img/archive.svg"></a>
+                    </div>
+                </div>
+            }
     }
+    </div>
+
+    <div class="row row-cols-6 unpinned">
+    @foreach(var mod in Model)
+    {
+            @if (mod.Pined == false)
+            {
+                <div class="col note">
+                    <div class="note-content" onclick="Edit(@mod.Id)"> 
+                <p>@mod.Title</p> 
+                <p>@mod.NoteBody</p>
+            </div>
+            <div class="footer-note">
+                <a class="delete-note" onclick="putInCan(@mod.Id)"><img src="/img/deleteForever.svg"></a>
+                <a class="archive-note" onclick="archive(@mod.Id)"><img src="/img/archive.svg"></a>
+            </div>
+        </div>   
+        }
+    }
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="noteModal">
+    <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-body" id="noteModalBodyDiv"></div>             
+        </div>
+    </div>
 </div>

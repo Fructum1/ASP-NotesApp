@@ -1,25 +1,27 @@
 ﻿@model ASP_NotesApp.Models.ViewModels.LoginViewModel
+@{
+ Layout = "~/Views/Shared/_LayoutUnauth.cshtml";
+}
 
-<h1>Логин</h1>
-
-<form asp-controller="User" asp-action="Login" method="post" asp-anti-forgery="true">
-    <div class="edit-block">
-        <label>Email</label>
-        <input class="custom-controller form-control" style="width: 33%;" asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div class="edit-block">
-        <label>Пароль</label>
-        <input class="custom-controller form-control" style="width: 33%;" type="password" asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div class="edit-block">
-        <label>Подтверждение пароля</label>
-        <input class="custom-controller form-control" style="width: 33%;", type="password" asp-for="ConfirmPassword" />
-        <span asp-validation-for="ConfirmPassword"></span>
-    </div>
-    <div class="error-message" asp-validation-summary="All"></div>
-    <div class="edit-block">
-        <button class="button" type="submit">Войти</button>
+<form asp-controller="User" asp-action="Login" asp-antiforgery="true">
+    <div class="register-form">
+        <h2 class="title register">Войти в приложение</h2>
+        <div class="edit-block">
+            <input class="email form-control register" placeholder="Email" type="text" asp-for="Email" />
+            <span asp-validation-for="Email" />
+        </div>
+        <div class="edit-block">        
+            <input class="password form-control register" placeholder="Пароль" type="password" asp-for="Password" />
+            <span asp-validation-for="Password" />
+        </div>
+        <div class="edit-block">
+            <input class="password form-control register" placeholder="Подтверждение пароля" type="password" asp-for="ConfirmPassword" />
+            <span asp-validation-for="ConfirmPassword" />
+        </div>
+        <div class="error-message register" asp-validation-summary="All"></div>
+        <div class="edit-block button">
+            <input class="button register" type="submit" value="Войти" />
+        </div>
+        <p class="register-notes">Если вы еще не зарегистрированы - нажмите <a asp-controller="User" asp-action="Register">сюда</a></p>
     </div>
 </form>

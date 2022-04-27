@@ -9,10 +9,18 @@ namespace ASP_NotesApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly NoteAppDBContext _context;
+
+        public HomeController(NoteAppDBContext context)
+        {
+            _context = context;
+        }
 
         public IActionResult Index()
         {
-            return View();
+            var users = _context.Users;
+
+            return View(users);
         }
 
         public IActionResult Privacy()

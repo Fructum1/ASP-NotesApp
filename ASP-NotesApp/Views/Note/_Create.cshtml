@@ -1,0 +1,19 @@
+﻿@model ASP_NotesApp.Models.ViewModels.Note.CreateViewModel
+
+        <form asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="checkbox" asp-for="Pined" class="form-control pin" />
+                <div class="form-group title">
+                    <input asp-for="Title" class="form-control title"  placeholder="Введите заголовок" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <textarea asp-for="NoteBody" class="form-control body" placeholder="Введите текст"></textarea>
+                    <span asp-validation-for="NoteBody" class="text-danger"></span>
+                </div>
+               
+                <div class="modal-user-buttons">
+                    <input type="submit" value="Создать" class="btn btn-success" />
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Назад</button>
+                </div>     
+        </form>

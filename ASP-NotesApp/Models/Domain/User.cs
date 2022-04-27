@@ -9,7 +9,6 @@ namespace ASP_NotesApp.Models.Domain
         public User()
         {
             Notes = new HashSet<Note>();
-            NotesNavigation = new HashSet<Note>();
         }
 
         [Key]
@@ -19,7 +18,8 @@ namespace ASP_NotesApp.Models.Domain
         public string? Patronymic { get; set; }
         public string Password { get; set; } = null!;
         public string Email { get; set; } = null!;
+
+
         public virtual ICollection<Note> Notes { get; set;}
-        public virtual ICollection<Note> NotesNavigation { get; set; }
     }
 }

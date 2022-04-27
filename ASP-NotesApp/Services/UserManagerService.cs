@@ -8,20 +8,28 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace ASP_NotesApp.Services
 {
-    public class UserAuthService
+    public class UserManagerService
     {
         protected readonly IGenericRepository<User> _usersRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserAuthService(IGenericRepository<User> repo, IHttpContextAccessor httpContextAccessor)
+        public int CurrentUserId
         {
-            _usersRepository = repo;
+            get
+            {
+                return Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            }
+        }
+
+        public UserManagerService(IGenericRepository<User> userRepo, IHttpContextAccessor httpContextAccessor)
+        {
+            _usersRepository = userRepo;
             _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task RegisterAsync(RegisterDTO registerInfo)
         {
-            if (registerInfo == null)
+            if (registerInfo != null && ! await UserExist(registerInfo.Email))
             {
                 var user = new User();
                 user.Name = registerInfo.Name;
@@ -56,6 +64,17 @@ namespace ASP_NotesApp.Services
             await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
+        public async Task<int> GetLastUserId(string email)
+        {
+            var user = await _usersRepository.GetByAttributeAsync(email);
+            if (user == null)
+            {
+                throw new Exception();
+            }
+
+            return user.Id;
+        }
+
         private async Task Authenticate(User user, HttpContext context)
         {
             var claims = new ClaimsIdentity(new[]
@@ -66,6 +85,13 @@ namespace ASP_NotesApp.Services
             }, "ApplicationCookie");
 
             await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claims));
+        }
+
+        private async Task<bool> UserExist(string email)
+        {
+            var user = await _usersRepository.GetByAttributeAsync(email);
+            if (user != null) return true;
+            else return false;
         }
     }
 }
