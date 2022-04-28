@@ -3,7 +3,7 @@
 }
 @model IEnumerable<ASP_NotesApp.Models.Domain.Note>
 
-<div class="container-fluid">
+<div class="container-fluid" id="123">
     <div class="note-header">
         <form method ="get" class="note filter">
             <div class ="form-group">
@@ -63,6 +63,9 @@
     }
     </div>
 </div>
+    <div class="info-message" id="notificationContainer">
+        <p class="notification-message" id="notificationMessage"><b></b></p>
+    </div>
 
 <div class="modal fade" id="noteModal">
     <div class="modal-dialog">

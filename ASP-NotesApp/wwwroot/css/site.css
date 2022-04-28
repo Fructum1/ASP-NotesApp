@@ -206,3 +206,26 @@ input[type=checkbox]:checked:before {
     justify-content: center;
     padding-top: 25%;
 }
+
+.info-message {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    background-color: white;
+    border-radius: 10px;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+}
+
+.info-message {
+    display: none;
+}
+
+.info-message.active {
+    display: inherit;
+}
+
+.notification-message {
+    margin-top: 11px;
+}

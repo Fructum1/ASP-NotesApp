@@ -105,7 +105,7 @@ namespace ASP_NotesApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(UserEditViewModel model, int id)
+        public async Task<IActionResult> Edit([FromBody] UserEditViewModel model, int id)
         {
             if (!ModelState.IsValid)
             {

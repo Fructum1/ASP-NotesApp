@@ -25,6 +25,7 @@ const putInCan = function (noteId) {
 
     }).done(function () {
         document.location.reload();
+        $("#notificationMessage").text("Успешно удалено").show();
     });
 }
 
@@ -32,8 +33,23 @@ const archive = function (noteId) {
     $.ajax({
         url: "/Note/Archive?id=" + noteId,
         type: 'POST',
-    }).done(function () {
-        document.location.reload();
+    }).done(function (e) {
+        var notif = $("#notificationContainer");
+        notif.addClass("active");
+        $("#notificationMessage").text("Успешно архивировано!");
+        setTimeout(function () {
+            notif.removeClass("active");
+        }, 2000)
+    
+        $.ajax({
+            url: "/Note/GetNotesList",
+            type: 'GET',
+            cache: false,
+            success: function OnSuccess(data) {
+                $("#123").html(data);
+                alert(data);
+            }
+        })        
     });
 }
 
@@ -70,6 +86,7 @@ const deleteNote = function (noteId) {
         type: 'POST',
     }).done(function () {
         document.location.reload();
+        $("#notificationMessage").text("Успешно удалено").show();
     });
 }
 

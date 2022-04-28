@@ -18,7 +18,7 @@ namespace ASP_NotesApp.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(string attribute)
+        public async Task<IActionResult> Index(string? attribute)
         {
             var notes = await _noteManager.GetAllAsync();
             notes = notes.Where(n => n.Status == (int)StatusNote.Active);
