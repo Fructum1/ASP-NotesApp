@@ -3,65 +3,8 @@
 }
 @model IEnumerable<ASP_NotesApp.Models.Domain.Note>
 
-<div class="container-fluid" id="123">
-    <div class="note-header">
-        <form method ="get" class="note filter">
-            <div class ="form-group">
-                <div class="row">
-                    <div class="col-md-8">
-                        <label class="control-label">Поиск по словам: </label>
-                        <input name="attribute" class="form-control" />
-                    </div>
-                    <div class="col-md-1">
-                        <button type="submit" value="Применить" class="btn btn-success filter">Применить</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <a class="button-add" onclick="Create()"><img class="note-image" onclick="clickOnCreate" src="/img/add.svg"></a>
-    </div>
-
-    @if(Model.Any(n => n.Pined == true))
-    {
-        <h2>Закрепленные</h2>
-    }
-    <div class="row row-cols-6">
-    @foreach(var mod in Model)
-    {
-            @if (mod.Pined == true)
-            {
-                <div class="col note">
-                    <div class="note-content" onclick="Edit(@mod.Id)"> 
-                        <p>@mod.Title</p> 
-                        <p>@mod.NoteBody</p>
-                    </div>
-                    <div class="footer-note">
-                        <a class="delete-note" onclick="putInCan(@mod.Id)"><img src="/img/deleteForever.svg"></a>
-                        <a class="archive-note" onclick="archive(@mod.Id)"><img src="/img/archive.svg"></a>
-                    </div>
-                </div>
-            }
-    }
-    </div>
-
-    <div class="row row-cols-6 unpinned">
-    @foreach(var mod in Model)
-    {
-            @if (mod.Pined == false)
-            {
-                <div class="col note">
-                    <div class="note-content" onclick="Edit(@mod.Id)"> 
-                <p>@mod.Title</p> 
-                <p>@mod.NoteBody</p>
-            </div>
-            <div class="footer-note">
-                <a class="delete-note" onclick="putInCan(@mod.Id)"><img src="/img/deleteForever.svg"></a>
-                <a class="archive-note" onclick="archive(@mod.Id)"><img src="/img/archive.svg"></a>
-            </div>
-        </div>   
-        }
-    }
-    </div>
+<div class="container-fluid" id="content-note">
+    
 </div>
     <div class="info-message" id="notificationContainer">
         <p class="notification-message" id="notificationMessage"><b></b></p>
@@ -74,3 +17,14 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            let url = "/Note/GetNotesList";
+
+    $("#content-note").load(url, function () {
+
+    }) })  
+    </script>
+}

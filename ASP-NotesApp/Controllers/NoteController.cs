@@ -18,7 +18,12 @@ namespace ASP_NotesApp.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(string? attribute)
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> GetNotesList(string? attribute)
         {
             var notes = await _noteManager.GetAllAsync();
             notes = notes.Where(n => n.Status == (int)StatusNote.Active);
@@ -28,7 +33,7 @@ namespace ASP_NotesApp.Controllers
                 notes = notes.Where(n => n?.Title == attribute || n?.NoteBody == attribute);
             }
 
-            return View(notes);
+            return PartialView("_GetNotesList", notes);
         }
 
         public async Task<IActionResult> Archived(string attribute)

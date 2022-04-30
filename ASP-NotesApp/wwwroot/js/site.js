@@ -23,9 +23,22 @@ const putInCan = function (noteId) {
         url: "/Note/Delete?id=" + noteId,
         type: 'POST',
 
-    }).done(function () {
-        document.location.reload();
-        $("#notificationMessage").text("Успешно удалено").show();
+    }).done(function (e) {
+        var notif = $("#notificationContainer");
+        notif.addClass("active");
+        $("#notificationMessage").text("Успешно удалено!");
+        setTimeout(function () {
+            notif.removeClass("active");
+        }, 1000)
+
+        $.ajax({
+            url: "/Note/GetNotesList",
+            type: 'GET',
+            cache: false,
+            success: function OnSuccess(data) {
+                $("#content-note").html(data);
+            }
+        })
     });
 }
 
@@ -39,15 +52,14 @@ const archive = function (noteId) {
         $("#notificationMessage").text("Успешно архивировано!");
         setTimeout(function () {
             notif.removeClass("active");
-        }, 2000)
+        }, 1000)
     
         $.ajax({
             url: "/Note/GetNotesList",
             type: 'GET',
             cache: false,
             success: function OnSuccess(data) {
-                $("#123").html(data);
-                alert(data);
+                $("#content-note").html(data);
             }
         })        
     });
@@ -93,4 +105,13 @@ const deleteNote = function (noteId) {
 const clickOnCreate = function () {
     var innerArrow = document.getElementById("img");
     innerArrow.setAttribute("transform", "rotate(45)");
+}
+
+const search = function () {
+    var attribute = document.getElementById("input-search").value;
+        let url = "/Note/GetNotesList?attribute=" + attribute;
+
+    $("#content-note").load(url, function () {
+
+        })
 }
