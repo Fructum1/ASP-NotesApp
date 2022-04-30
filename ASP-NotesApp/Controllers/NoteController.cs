@@ -30,7 +30,7 @@ namespace ASP_NotesApp.Controllers
 
             if (!String.IsNullOrEmpty(attribute))
             {
-                notes = notes.Where(n => n?.Title == attribute || n?.NoteBody == attribute);
+                notes = notes.Where(n => (n.Title != null && n.Title.StartsWith(attribute)) || (n.NoteBody != null && n.NoteBody.StartsWith(attribute)));
             }
 
             return PartialView("_GetNotesList", notes);
