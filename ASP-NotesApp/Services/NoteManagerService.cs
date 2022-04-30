@@ -80,6 +80,10 @@ namespace ASP_NotesApp.Services
                 note.Title = model.Title;
                 note.NoteBody = model.NoteBody;
                 note.Pined = model.Pined;
+                if (note.Pined)
+                {
+                    note.Status = (int)StatusNote.Active;
+                }
 
                 _noteRepository.Update(note);
             }
@@ -99,7 +103,8 @@ namespace ASP_NotesApp.Services
 
             if (note.Status != (int)StatusNote.Archived) 
             { 
-                note.Status = (int)StatusNote.Archived; 
+                note.Status = (int)StatusNote.Archived;
+                note.Pined = false;
             }
 
             _noteRepository.Update(note);
@@ -115,7 +120,8 @@ namespace ASP_NotesApp.Services
 
             if (note.Status != (int)StatusNote.Deleted) 
             { 
-                note.Status = (int)StatusNote.Deleted; 
+                note.Status = (int)StatusNote.Deleted;
+                note.Pined = false;
             }
 
             _noteRepository.Update(note);
