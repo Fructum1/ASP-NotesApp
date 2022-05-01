@@ -124,6 +124,7 @@ input[type=checkbox]:checked:before {
 
 .footer-note {
     flex: 0 0 auto;
+    height: 30px;
 }
 
 .note-content {
@@ -136,14 +137,6 @@ input[type=checkbox]:checked:before {
 
 .form-control.body {
     margin-bottom: 5px;
-}
-
-.archive-note {
-    z-index: 999;
-}
-
-.delete-note {
-    z-index: 999;
 }
 
 .note-header {
@@ -183,7 +176,9 @@ input[type=checkbox]:checked:before {
 }
 
 .btn.btn-success.filter {
-    margin-top: 23px;
+    margin-top: 24px;
+    color: black;
+    background-color: mediumpurple;
 }
 
 .note.filter {
@@ -232,4 +227,44 @@ input[type=checkbox]:checked:before {
 
 .search-block {
     width: 100%;
+}
+
+.ck-content .text-tiny {
+    font-size: 0.7em;
+}
+
+.ck-content .text-small {
+    font-size: 0.85em;
+}
+
+.ck-content .text-big {
+    font-size: 1.4em;
+}
+
+.ck-content .text-huge {
+    font-size: 1.8em;
+}
+
+.header-note {
+    width: 100%;
+    justify-content: space-between;
+}
+
+.pin {
+    float: right;
+    width: 15%;
+    margin-top: 3px;
+    display: none;
+}
+
+.unPin {
+    float: right;
+    width: 15%;
+    display: none;
+    margin-top: 3px;
+}
+
+.delete-note, .archive-note {
+    z-index: 999;
+    display: none;
 }

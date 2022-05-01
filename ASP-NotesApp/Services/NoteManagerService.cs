@@ -171,6 +171,36 @@ namespace ASP_NotesApp.Services
             }
         }
 
+        public async Task PinAsync(int id)
+        {
+            var note = await GetNoteAsync(id);
+            if(note == null)
+            {
+                throw new NoteNotFoundException();
+            }
+
+            if(note.Status == (int)StatusNote.Active && note.Pined == false)
+            {
+                note.Pined = true;
+                _noteRepository.Update(note);
+            }
+        }
+
+        public async Task UnPinAsync(int id)
+        {
+            var note = await GetNoteAsync(id);
+            if (note == null)
+            {
+                throw new NoteNotFoundException();
+            }
+
+            if (note.Status == (int)StatusNote.Active && note.Pined == true)
+            {
+                note.Pined = false;
+                _noteRepository.Update(note);
+            }
+        }
+
         private bool NoteValid(Note note)
         {
             if(note.Status == (int)StatusNote.Active &&   

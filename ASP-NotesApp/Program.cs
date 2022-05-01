@@ -23,8 +23,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         });
 builder.Services.AddScoped<IGenericRepository<Note>, NotesRepository>();
 builder.Services.AddScoped<IGenericRepository<User>, UserRepository>();
-builder.Services.AddScoped<UserManagerService>();
-builder.Services.AddScoped<NoteManagerService>();
 builder.Services.AddTransient<ClaimsPrincipal>(s =>s.GetService<IHttpContextAccessor>().HttpContext.User);
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddRazorPages().AddMvcOptions(option =>
@@ -32,6 +30,8 @@ builder.Services.AddRazorPages().AddMvcOptions(option =>
     option.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
         _ => "Ïîëå äîëæíî áûòü çàïîëíåíî");
 });
+builder.Services.AddScoped<UserManagerService>();
+builder.Services.AddScoped<NoteManagerService>();
 
 
 var app = builder.Build();

@@ -12,8 +12,18 @@
         <textarea asp-for="NoteBody" id="editor" class="form-control body" placeholder="Введите текст"></textarea>
         <script>
                         ClassicEditor
-        .create(document.querySelector('#editor'), {
-        })
+        .create( document.querySelector( '#editor' ), {
+        fontSize: {
+            options: [
+                'tiny',
+                'default',
+                'big'
+            ]
+        },
+        toolbar: [
+            'heading', 'bulletedList', 'numberedList', 'fontSize', 'undo', 'redo'
+        ]
+    } )
         .then(editor => {                
             editor.model.document.on('change', () => {
                 $("#editor").html(editor.getData());

@@ -24,7 +24,28 @@
             let url = "/Note/GetNotesList";
 
     $("#content-note").load(url, function () {
-    
+        $(document).on({
+    mouseenter: function(e) {
+      var id = this.id.split(' ');
+      $("#pin-" + id[1]).fadeIn();
+      $("#unPin-" + id[1]).fadeIn();
+      $("#archive-note-" + id[1]).fadeIn();
+      $("#delete-note-" + id[1]).fadeIn();
+    },
+    mouseleave: function(e) {
+      var id = this.id.split(' ');
+      $("#pin-" + id[1]).fadeOut();
+      $("#unPin-" + id[1]).fadeOut();
+      $("#archive-note-" + id[1]).fadeOut();
+      $("#delete-note-" + id[1]).fadeOut();
+    }
+}, '.col.note');
+
     }) })  
     </script>
+
 }
+@*$("#noteItem").mouseenter(function(){
+        $(".pin").fadeIn();
+        $(".unPin").fadeIn("slow");
+      });*@

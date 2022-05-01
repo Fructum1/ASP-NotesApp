@@ -23,8 +23,18 @@
     @foreach(var mod in Model)
     {
         <div class="col note">
+            @if (mod.Pined == false)
+            {
+                <a class="pin" onclick="pin(@mod.Id)"><img src="/img/pin-deactive.svg" /></a>
+            }
+            else
+            {
+                <a class="unPin" onclick="unPin(@mod.Id)"><img src="/img/pin-active.svg" /></a>
+            }
             <div class="note-content" onclick="Edit(@mod.Id)"> 
-                <p>@Html.Raw(mod.Title)</p> 
+                <div class="header-note"> 
+                        <h4><strong>@mod.Title</strong></h4>
+                </div>
                 <p>@Html.Raw(mod.NoteBody)</p>
             </div>
             <div class="footer-note">

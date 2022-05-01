@@ -115,3 +115,37 @@ const search = function () {
 
         })
 }
+
+const pin = function (noteId) {
+    $.ajax({
+        url: "/Note/PinNote?id=" + noteId,
+        type: 'POST',
+
+    }).done(function (e) {
+        $.ajax({
+            url: "/Note/GetNotesList",
+            type: 'GET',
+            cache: false,
+            success: function OnSuccess(data) {
+                $("#content-note").html(data);
+            }
+        })
+    });
+}
+
+const unPin = function (noteId) {
+    $.ajax({
+        url: "/Note/UnPinNote?id=" + noteId,
+        type: 'POST',
+
+    }).done(function (e) {
+        $.ajax({
+            url: "/Note/GetNotesList",
+            type: 'GET',
+            cache: false,
+            success: function OnSuccess(data) {
+                $("#content-note").html(data);
+            }
+        })
+    });
+}

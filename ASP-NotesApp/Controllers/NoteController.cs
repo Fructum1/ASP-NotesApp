@@ -185,5 +185,29 @@ namespace ASP_NotesApp.Controllers
                 ModelState.AddModelError("", ex.Message);
             }
         }
+
+        public async Task PinNote(int id)
+        {
+            try
+            {
+                await _noteManager.PinAsync(id);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+        }
+
+        public async Task UnPinNote(int id)
+        {
+            try
+            {
+                await _noteManager.UnPinAsync(id);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+        }
     }
 }

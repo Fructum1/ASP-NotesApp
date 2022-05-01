@@ -14,47 +14,67 @@
                 </div>
             </div>
         </div>
-        <a class="button-add" onclick="Create()"><img class="note-image" onclick="clickOnCreate" src="/img/add.svg"></a>
-    </div>
+       <a class="button-add" onclick="Create()"><img class="note-image" onclick="clickOnCreate" src="/img/add.svg"></a>
+</div>
 
-    @if(Model.Any(n => n.Pined == true))
-    {
-        <h2>Закрепленные</h2>
-    }
-    <div class="row row-cols-6">
+@if(Model.Any(n => n.Pined == true))
+{
+    <h2>Закрепленные</h2>
+}
+<div class="row row-cols-6">
     @foreach(var mod in Model)
     {
-            @if (mod.Pined == true)
-            {
-                <div class="col note">
-                    <div class="note-content" onclick="Edit(@mod.Id)"> 
-                        <p>@Html.Raw(mod.Title)</p> 
-                        <p>@Html.Raw(mod.NoteBody)</p>
+        @if (mod.Pined == true)
+        {
+            <div class="col note" id="noteItem @mod.Id">
+                @if (mod.Pined == false)
+                {
+                    <a class="pin" id="pin-@mod.Id" onclick="pin(@mod.Id)"><img src="/img/pin-deactive.svg" /></a>
+                }
+                else
+                {
+                    <a class="unPin" id="unPin-@mod.Id" onclick="unPin(@mod.Id)"><img src="/img/pin-active.svg" /></a>
+                }
+                <div class="note-content" onclick="Edit(@mod.Id)">
+                    <div class="header-note"> 
+                        <h4><strong>@mod.Title</strong></h4>
                     </div>
-                    <div class="footer-note">
-                        <a class="delete-note" onclick="putInCan(@mod.Id)"><img src="/img/deleteForever.svg"></a>
-                        <a class="archive-note" onclick="archive(@mod.Id)"><img id="img-archive" src="/img/archive.svg"></a>
-                    </div>
-                </div>
-            }
-    }
-    </div>
-
-    <div class="row row-cols-6 unpinned">
-    @foreach(var mod in Model)
-    {
-            @if (mod.Pined == false)
-            {
-                <div class="col note">
-                    <div class="note-content" onclick="Edit(@mod.Id)"> 
-                    <p>@Html.Raw(mod.Title)</p> 
                     <p>@Html.Raw(mod.NoteBody)</p>
+                </div>
+                <div class="footer-note">
+                    <a class="delete-note" id="delete-note-@mod.Id" onclick="putInCan(@mod.Id)"><img src="/img/deleteForever.svg"></a>
+                    <a class="archive-note" id="archive-note-@mod.Id" onclick="archive(@mod.Id)"><img id="img-archive" src="/img/archive.svg"></a>
+                </div>
             </div>
-            <div class="footer-note">
-                <a class="delete-note" onclick="putInCan(@mod.Id)"><img src="/img/deleteForever.svg"></a>
-                <a class="archive-note" onclick="archive(@mod.Id)"><img src="/img/archive.svg"></a>
-            </div>
-        </div>   
         }
     }
-    </div>
+</div>
+
+<div class="row row-cols-6 unpinned">
+    @foreach(var mod in Model)
+    {
+        @if (mod.Pined == false)
+        {
+            <div class="col note" id="noteItem @mod.Id">
+                @if (mod.Pined == false)
+                {
+                    <a class="pin" id="pin-@mod.Id" onclick="pin(@mod.Id)"><img src="/img/pin-deactive.svg" /></a>
+                }
+                else
+                {
+                    <a class="unPin" id="unPin-@mod.Id" onclick="unPin(@mod.Id)"><img src="/img/pin-active.svg" /></a>
+                }
+                <div class="note-content" onclick="Edit(@mod.Id)"> 
+                    <div class="header-note"> 
+                        <h4><strong>@mod.Title</strong></h4>
+                    </div>
+                    <p>@Html.Raw(mod.NoteBody)</p>
+                </div>
+                <div class="footer-note">
+                    <a class="delete-note" id="delete-note-@mod.Id" onclick="putInCan(@mod.Id)"><img src="/img/deleteForever.svg"></a>
+                    <a class="archive-note" id="archive-note-@mod.Id" onclick="archive(@mod.Id)"><img src="/img/archive.svg"></a>
+                </div>
+            </div>   
+        }
+    }
+</div>
