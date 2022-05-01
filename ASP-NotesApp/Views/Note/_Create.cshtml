@@ -8,7 +8,20 @@
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <textarea asp-for="NoteBody" class="form-control body" placeholder="Введите текст"></textarea>
+        <textarea asp-for="NoteBody" id="editor" class="form-control body" placeholder="Введите текст"></textarea>
+        <script>
+                        ClassicEditor
+        .create(document.querySelector('#editor'), {
+        })
+        .then(editor => {                
+            editor.model.document.on('change', () => {
+                $("#editor").html(editor.getData());
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
+                </script>
         <span asp-validation-for="NoteBody" class="text-danger"></span>
     </div>
 

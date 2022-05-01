@@ -179,7 +179,7 @@ input[type=checkbox]:checked:before {
     }
 
 .header {
-    position: absolute;
+    position: fixed;
 }
 
 .btn.btn-success.filter {

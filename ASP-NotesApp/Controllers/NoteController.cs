@@ -3,6 +3,7 @@ using ASP_NotesApp.Models.ViewModels.Note;
 using ASP_NotesApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
 
 namespace ASP_NotesApp.Controllers
 {
@@ -27,6 +28,7 @@ namespace ASP_NotesApp.Controllers
         {
             var notes = await _noteManager.GetAllAsync();
             notes = notes.Where(n => n.Status == (int)StatusNote.Active);
+            notes = notes.Select(n => { n.NoteBody = HttpUtility.HtmlDecode(n.NoteBody); return n; });
 
             if (!String.IsNullOrEmpty(attribute))
             {
@@ -40,7 +42,7 @@ namespace ASP_NotesApp.Controllers
         {
             var notes = await _noteManager.GetAllAsync();
             notes = notes.Where(n => n.Status == (int)StatusNote.Archived);
-
+  
             if (!String.IsNullOrEmpty(attribute))
             {
                 notes = notes.Where(n => n?.Title == attribute || n?.NoteBody == attribute);
@@ -99,7 +101,7 @@ namespace ASP_NotesApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditViewModel model, int id)
+        public async Task<IActionResult> Edit(EditViewModel model)
         {
             if (!ModelState.IsValid)
             {

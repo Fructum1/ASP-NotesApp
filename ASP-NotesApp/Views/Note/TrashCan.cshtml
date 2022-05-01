@@ -9,8 +9,8 @@
     {
         <div class="col note">
             <div class="note-content"> 
-                <p>@mod.Title</p> 
-                <p>@mod.NoteBody</p>
+                <p>@Html.Raw(mod.Title)</p> 
+                <p>@Html.Raw(mod.NoteBody)</p>
             </div>
             <div class="footer-note">
                 <a class="delete-note" onclick="deleteFromTrashCan(@mod.Id)"><img src="/img/deleteForever.svg"></a>
