@@ -19,16 +19,28 @@ namespace ASP_NotesApp.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? id = 0)
         {
+            ViewBag.Status = id;
             return View();
         }
 
-        public async Task<IActionResult> GetNotesList(string? attribute)
+        public async Task<IActionResult> GetNotesList(string? attribute, int status = 0)
         {
             var notes = await _noteManager.GetAllAsync();
-            notes = notes.Where(n => n.Status == (int)StatusNote.Active);
-            notes = notes.Select(n => { n.NoteBody = HttpUtility.HtmlDecode(n.NoteBody); return n; });
+
+            switch (status)
+            {
+                case (int)StatusNote.Active:
+                    notes = notes.Where(n => n.Status == (int)StatusNote.Active);
+                    break;
+                case (int)StatusNote.Archived:
+                    notes = notes.Where(n => n.Status == (int)StatusNote.Archived);
+                    break;
+                case (int)StatusNote.Deleted:
+                    notes = notes.Where(n => n.Status == (int)StatusNote.Deleted);
+                    break;
+            }
 
             if (!String.IsNullOrEmpty(attribute))
             {
@@ -36,27 +48,6 @@ namespace ASP_NotesApp.Controllers
             }
 
             return PartialView("_GetNotesList", notes);
-        }
-
-        public async Task<IActionResult> Archived(string attribute)
-        {
-            var notes = await _noteManager.GetAllAsync();
-            notes = notes.Where(n => n.Status == (int)StatusNote.Archived);
-  
-            if (!String.IsNullOrEmpty(attribute))
-            {
-                notes = notes.Where(n => n?.Title == attribute || n?.NoteBody == attribute);
-            }
-
-            return View(notes);
-        }
-
-        public async Task<IActionResult> TrashCan()
-        {
-            var notes = await _noteManager.GetAllAsync();
-            notes = notes.Where(_n => _n.Status == (int)StatusNote.Deleted);
-
-            return View(notes);
         }
 
         [HttpGet]
@@ -117,7 +108,14 @@ namespace ASP_NotesApp.Controllers
                     Status = model.Status,
                     Title = model.Title
                 }, model.Id);
-                return Redirect("Index");
+                if (model.Status == (int)StatusNote.Archived)
+                {
+                    return RedirectToAction("Index", new {id = (int)StatusNote.Archived });
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
             catch (Exception ex)
             {

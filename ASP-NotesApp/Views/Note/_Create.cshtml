@@ -1,6 +1,6 @@
 ﻿@model ASP_NotesApp.Models.ViewModels.Note.CreateViewModel
 
-<form asp-action="Create">
+<form id="create-note-form" asp-action="Create">
     <div asp-validation-summary="All" class="text-danger"></div>
     <input type="checkbox" asp-for="Pined" class="form-control pin" />
     <div class="form-group title">
@@ -9,24 +9,24 @@
     </div>
     <div class="form-group">
         <textarea asp-for="NoteBody" id="editor" class="form-control body" placeholder="Введите текст"></textarea>
-        <script>
-                        ClassicEditor
-        .create(document.querySelector('#editor'), {
-        })
-        .then(editor => {                
-            editor.model.document.on('change', () => {
-                $("#editor").html(editor.getData());
-            });
-        })
-        .catch(error => {
-            console.error(error);
-        });
-                </script>
+         <script>
+            ClassicEditor
+                .create(document.querySelector('#editor'), {
+                })
+                .then(editor => {                
+                    editor.model.document.on('change', () => {
+                    $("#editor").html(editor.getData());
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        </script>
         <span asp-validation-for="NoteBody" class="text-danger"></span>
     </div>
 
     <div class="modal-user-buttons">
-        <input type="submit" value="Создать" class="btn btn-success" />
+        <input type="button" value="Создать" class="btn btn-success" onclick="createNote()" />
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Назад</button>
     </div>     
 </form>

@@ -21,28 +21,57 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            let url = "/Note/GetNotesList";
-
-    $("#content-note").load(url, function () {
-        $(document).on({
-    mouseenter: function(e) {
-      var id = this.id.split(' ');
-      $("#pin-" + id[1]).fadeIn();
-      $("#unPin-" + id[1]).fadeIn();
-      $("#archive-note-" + id[1]).fadeIn();
-      $("#delete-note-" + id[1]).fadeIn();
-    },
-    mouseleave: function(e) {
-      var id = this.id.split(' ');
-      $("#pin-" + id[1]).fadeOut();
-      $("#unPin-" + id[1]).fadeOut();
-      $("#archive-note-" + id[1]).fadeOut();
-      $("#delete-note-" + id[1]).fadeOut();
-    }
-}, '.col.note');
-
-    }) })  
+            let url = "/Note/GetNotesList?status=" + @ViewBag.Status;
+            $("#active-note").addClass('active');
+        $("#content-note").load(url, function () {
+            $(document).on({
+                mouseenter: function(e) {
+                  var id = this.id.split(' ');
+                  $("#pin-" + id[1]).fadeIn();
+                  $("#unPin-" + id[1]).fadeIn();
+                  $("#archive-note-" + id[1]).fadeIn();
+                  $("#delete-note-" + id[1]).fadeIn();
+                        $("#recover-note-"+ id[1]).fadeIn();
+                  $("#unArchive-note-"+ id[1]).fadeIn();
+                  $("#deleteForever-note-"+ id[1]).fadeIn();
+                },
+                mouseleave: function(e) {
+                  var id = this.id.split(' ');
+                  $("#pin-" + id[1]).fadeOut();
+                  $("#unPin-" + id[1]).fadeOut();
+                  $("#archive-note-" + id[1]).fadeOut();
+                  $("#delete-note-" + id[1]).fadeOut();
+                  $("#recover-note-"+ id[1]).fadeOut();
+                  $("#unArchive-note-"+ id[1]).fadeOut();
+                  $("#deleteForever-note-"+ id[1]).fadeOut();
+                }
+            }, '.col.note');
+        }) 
+    })  
     </script>
+    <script>
+        $(document).ready(function(){
+            $(".nav.nav-pills.nav-flush.flex-column.mb-auto.text-center li a").click(function(){
+                var link=$(this).attr("id");
+                resetMenuHighlight();
+                if(link=="active-note"){ 
+                    let url = "/Note/GetNotesList?status=0"
+                    $(this).toggleClass('active');
+                    $("#content-note").load(url);
+                }
+                else if(link=="archive-note"){
+                    let url = "/Note/GetNotesList?status=1"
+                    $(this).toggleClass('active');
+                    $("#content-note").load(url);
+                }
+                else if(link=="trash-note"){
+                    let url = "/Note/GetNotesList?status=2"
+                    $(this).toggleClass('active');
+                    $("#content-note").load(url);
+                }
+            })
+          });
+    </script>?
 
 }
 @*$("#noteItem").mouseenter(function(){

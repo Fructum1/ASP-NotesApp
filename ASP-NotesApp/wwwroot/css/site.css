@@ -93,8 +93,8 @@ body {
 input[type=checkbox]:before {
     content: "";
     display: inline-block;
-    width: 12px;
-    height: 12px;
+    width: 20px;
+    height: 20px;
     background-image: url(../img/pin-deactive.svg);
 }
 
@@ -250,11 +250,11 @@ input[type=checkbox]:checked:before {
     justify-content: space-between;
 }
 
-.pin {
+.pin-out {
     float: right;
     width: 15%;
-    margin-top: 3px;
     display: none;
+    margin-top: 3px;
 }
 
 .unPin {
@@ -264,7 +264,7 @@ input[type=checkbox]:checked:before {
     margin-top: 3px;
 }
 
-.delete-note, .archive-note {
+.delete-note, .archive-note, .recover-note, .unArchive-note {
     z-index: 999;
     display: none;
 }

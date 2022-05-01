@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,13 +16,13 @@
         <div class="d-flex flex-column flex-shrink-0 bg-light vh-100">
             <ul class="nav nav-pills nav-flush flex-column mb-auto text-center" id="header-menu">
                 <li class="nav-item"> 
-                    <a class="nav-link py-3 border-bottom" id="" asp-controller="Note" asp-action="Index"><img src="/img/note.svg" /> </a> 
+                    <a class="nav-link py-3 border-bottom" id="active-note"><img src="/img/note.svg" /> </a> 
                     </li>
                 <li> 
-                    <a class="nav-link py-3 border-bottom" asp-controller="Note" asp-action="Archived"> <img src="/img/archive.svg" /> </a> 
+                    <a class="nav-link py-3 border-bottom" id="archive-note"> <img src="/img/archive.svg" /> </a> 
                 </li>
                 <li> 
-                    <a class="nav-link py-3 border-bottom" asp-controller="Note" asp-action="TrashCan"> <img src="/img/deleteForever.svg" /> </a> 
+                    <a class="nav-link py-3 border-bottom" id="trash-note"> <img src="/img/deleteForever.svg" /> </a> 
                 </li>
             </ul>
             <div class="dropdown border-top"> <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false"> <img src="/img/avatar.svg" alt="mdo" width="24" height="24" class="rounded-circle"> </a>
