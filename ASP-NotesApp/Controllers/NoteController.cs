@@ -61,7 +61,7 @@ namespace ASP_NotesApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return PartialView("_Create", model);
             }
 
             try
@@ -79,7 +79,7 @@ namespace ASP_NotesApp.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View(model);
+                return PartialView("_Create", model);
             }
         }
 
@@ -176,7 +176,7 @@ namespace ASP_NotesApp.Controllers
         {
             try
             {
-                await _noteManager.RecoverFromTrashCan(id);
+                await _noteManager.RecoverFromTrashCanAsync(id);
             }
             catch (Exception ex)
             {

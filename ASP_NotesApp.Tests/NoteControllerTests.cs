@@ -1,19 +1,89 @@
 ﻿using Xunit;
 using ASP_NotesApp.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using ASP_NotesApp.Services;
+using Moq;
+using ASP_NotesApp.Models.Domain;
+using ASP_NotesApp.DAL;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using ASP_NotesApp.Models.ViewModels.Note;
 
 namespace ASP_NotesApp.Tests
 {
   public class NoteControllerTests
     {
+        public Mock<IGenericRepository<Note>> _mockNoteRepository = new Mock<IGenericRepository<Note>>();
+        public Mock<IGenericRepository<User>> _mockUserRepository = new Mock<IGenericRepository<User>>();
+        public Mock<IHttpContextAccessor> _mockIhttpContext = new Mock<IHttpContextAccessor>();
+
         [Fact]
-        public void IndexViewDataMessage()
+        public void IndexReturnsAViewResult()
         {
-           // HomeController controller = new HomeController();
+            var _mockRepository = new Mock<IGenericRepository<Note>>();
+            _mockRepository.Setup(m => m.Get(1).Result).Returns(GetNotesTest(1));
+            var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContext.Object);
+            var _noteManager = new NoteManagerService(_mockNoteRepository.Object, _userManager);
+            var controller = new NoteController(_noteManager, _userManager);
 
-            //ViewResult result = controller.Index() as ViewResult;
+            var result = controller.Index();
 
-           // Assert.Equal("Hello!", result?.ViewData["Message"]);
+            var viewResult = Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public async void GetNotesListReturnAPartialViewResultWithAListOfNotes()
+        {
+            _mockNoteRepository.Setup(m => m.Get(1).Result).Returns(GetNotesTest(1));
+            _mockIhttpContext.Setup(m => m.HttpContext.User.FindFirst(It.IsAny<string>())).Returns(new Claim("name", "1"));
+            var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContext.Object);
+            var _noteManager = new NoteManagerService(_mockNoteRepository.Object, _userManager);
+            var controller = new NoteController(_noteManager, _userManager);
+
+            var result = await controller.GetNotesList("");
+
+            var viewResult = Assert.IsType<PartialViewResult>(result);
+            var model = Assert.IsAssignableFrom<IEnumerable<Note>>(viewResult.Model);
+            Assert.Equal(GetNotesTest(1).Count(), model.Count());
+        }
+        [Fact]
+        public async void CreateRedirectWhenSuccess()
+        {
+            _mockNoteRepository.Setup(m => m.Get(1).Result).Returns(GetNotesTest(1));
+            _mockIhttpContext.Setup(m => m.HttpContext.User.FindFirst(It.IsAny<string>())).Returns(new Claim("name", "1"));
+            var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContext.Object);
+            var _noteManager = new NoteManagerService(_mockNoteRepository.Object, _userManager);
+            var controller = new NoteController(_noteManager, _userManager);
+            CreateViewModel viewModel = new CreateViewModel() { NoteBody = "Hi", Title = "Hello", Pined = false };
+
+            var result = await controller.Create(viewModel);
+
+            Assert.IsType<RedirectToActionResult>(result);
+        }
+
+        [Fact]
+        public async void CreateModelNotValid()
+        {
+            _mockNoteRepository.Setup(m => m.Get(1).Result).Returns(GetNotesTest(1));
+            _mockIhttpContext.Setup(m => m.HttpContext.User.FindFirst(It.IsAny<string>())).Returns(new Claim("name", "1"));
+            var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContext.Object);
+            var _noteManager = new NoteManagerService(_mockNoteRepository.Object, _userManager);
+            var controller = new NoteController(_noteManager, _userManager);
+            CreateViewModel viewModel = new CreateViewModel() { NoteBody = "Hi", Title = "Hello", Pined = false };
+
+            var result = await controller.Create(viewModel);
+
+            Assert.IsType<ViewResult>(viewModel);
+        }
+
+        private List<Note> GetNotesTest(int id)
+        {
+            var notes = new List<Note>{
+                new Note { Id = 1, Pined = true, UserId = id, Status = 0},
+                new Note { Id = 2, Title = "fdsa", UserId = id, Status = 0},
+                new Note { Id = 3, NoteBody = "123", UserId = id, Status = 0},
+            };
+            return notes;
         }
     }
 }

@@ -33,13 +33,13 @@ namespace ASP_NotesApp.Services
                 return await _noteRepository.CreateAsync(note);
             }
 
-            else throw new Exception("Неопознанная ошибка");
+            else throw new NoteNotValid();
         }
 
         public async Task CreateDefault(string email)
         {
             Note note = new Note(){
-                UserId = await _userManager.GetLastUserId(email),
+                UserId = await _userManager.GetCurrentUserId(email),
                 NoteBody = "Hello!",
                 Title = "Welcome to my app",
                 CreationDate = DateTime.Now,
@@ -55,7 +55,7 @@ namespace ASP_NotesApp.Services
             Note note = await _noteRepository.GetAsync(id);
             if (note == null) 
             { 
-                throw new NoteNotFoundException(); 
+                throw new NoteNotFoundOrDeletedException(); 
             }
 
             return note;
@@ -66,7 +66,7 @@ namespace ASP_NotesApp.Services
             var notes = await _noteRepository.Get(_userManager.CurrentUserId);
             if(notes == null)
             {
-                throw new NoteNotFoundException();
+                throw new NoteNotFoundOrDeletedException();
             }
 
             return notes;
@@ -89,7 +89,7 @@ namespace ASP_NotesApp.Services
             }
             else
             {
-                throw new NoteNotFoundException();
+                throw new NoteNotFoundOrDeletedException();
             }
         }   
 
@@ -98,16 +98,15 @@ namespace ASP_NotesApp.Services
             var note = await GetNoteAsync(id);
             if(note == null)
             {
-                throw new NoteNotFoundException();
+                throw new NoteNotFoundOrDeletedException();
             }
 
             if (note.Status != (int)StatusNote.Archived) 
             { 
                 note.Status = (int)StatusNote.Archived;
                 note.Pined = false;
+                _noteRepository.Update(note);
             }
-
-            _noteRepository.Update(note);
         }
 
         public async Task DeleteAsync(int id)
@@ -115,16 +114,15 @@ namespace ASP_NotesApp.Services
             var note = await GetNoteAsync(id);
             if (note == null)
             {
-                throw new NoteNotFoundException();
+                throw new NoteNotFoundOrDeletedException();
             }
 
             if (note.Status != (int)StatusNote.Deleted) 
             { 
                 note.Status = (int)StatusNote.Deleted;
                 note.Pined = false;
+                _noteRepository.Update(note);
             }
-
-            _noteRepository.Update(note);
         }
 
         public async Task RemoveAsync(int id)
@@ -132,7 +130,7 @@ namespace ASP_NotesApp.Services
             var note = await GetNoteAsync(id);
             if (note == null)
             {
-                throw new NoteNotFoundException();
+                throw new NoteNotFoundOrDeletedException();
             }
 
             if (note.Status == (int)StatusNote.Deleted)
@@ -146,7 +144,7 @@ namespace ASP_NotesApp.Services
             var note = await GetNoteAsync(id);
             if (note == null)
             {
-                throw new NoteNotFoundException();
+                throw new NoteNotFoundOrDeletedException();
             }
 
             if (note.Status == (int)StatusNote.Archived)
@@ -156,12 +154,12 @@ namespace ASP_NotesApp.Services
             }
         }
 
-        public async Task RecoverFromTrashCan(int id)
+        public async Task RecoverFromTrashCanAsync(int id)
         {
             var note = await GetNoteAsync(id);
             if (note == null)
             {
-                throw new NoteNotFoundException();
+                throw new NoteNotFoundOrDeletedException();
             }
 
             if (note.Status == (int)StatusNote.Deleted)
@@ -176,7 +174,7 @@ namespace ASP_NotesApp.Services
             var note = await GetNoteAsync(id);
             if(note == null)
             {
-                throw new NoteNotFoundException();
+                throw new NoteNotFoundOrDeletedException();
             }
 
             if(note.Status == (int)StatusNote.Active && note.Pined == false)
@@ -191,7 +189,7 @@ namespace ASP_NotesApp.Services
             var note = await GetNoteAsync(id);
             if (note == null)
             {
-                throw new NoteNotFoundException();
+                throw new NoteNotFoundOrDeletedException();
             }
 
             if (note.Status == (int)StatusNote.Active && note.Pined == true)

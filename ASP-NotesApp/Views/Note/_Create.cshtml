@@ -24,7 +24,7 @@
         </script>
         <span asp-validation-for="NoteBody" class="text-danger"></span>
     </div>
-
+    <div class="error-message register" asp-validation-summary="All"></div>
     <div class="modal-user-buttons">
         <input type="button" value="Создать" class="btn btn-success" onclick="createNote()" />
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Назад</button>

@@ -84,7 +84,7 @@ namespace ASP_NotesApp.Controllers
             }
             catch(Exception ex)
             {
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                ModelState.AddModelError("", ex.Message);
                 return View(model);
             }
         }

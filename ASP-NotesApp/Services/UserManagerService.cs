@@ -14,7 +14,6 @@ namespace ASP_NotesApp.Services
     {
         protected readonly IGenericRepository<User> _usersRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-
         public int CurrentUserId
         {
             get
@@ -57,7 +56,7 @@ namespace ASP_NotesApp.Services
             }
             else
             {
-                throw new Exception("Неопознанная ошибка");
+                throw new Exception("Некорректные логин и(или) пароль");
             }
         }
 
@@ -66,16 +65,17 @@ namespace ASP_NotesApp.Services
             await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        public async Task<int> GetLastUserId(string email)
+        public async Task<int> GetCurrentUserId(string email)
         {
             var user = await _usersRepository.GetByAttributeAsync(email);
             if (user == null)
             {
-                throw new UserNotFoundException();
+                throw new UserNotFoundOrDeletedException();
             }
 
             return user.Id;
         }
+
         public async Task EditAsync(UserEditDTO model, int id)
         {
             var user = await _usersRepository.GetAsync(id);
@@ -99,15 +99,16 @@ namespace ASP_NotesApp.Services
             }
             else
             {
-                throw new UserNotFoundException();
+                throw new UserNotFoundOrDeletedException();
             }
         }
+
         public async Task<User> GetUserAsync(int id)
         {
             User user = await _usersRepository.GetAsync(id);
             if (user == null)
             {
-                throw new UserNotFoundException();
+                throw new UserNotFoundOrDeletedException();
             }
 
             return user;
