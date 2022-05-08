@@ -1,13 +1,14 @@
 ﻿@model ASP_NotesApp.Models.ViewModels.Note.CreateViewModel
 
 <form id="create-note-form" asp-action="Create">
-    <div asp-validation-summary="All" class="text-danger"></div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
     <input type="checkbox" asp-for="Pined" class="form-control pin" />
     <div class="form-group title">
         <input asp-for="Title" class="form-control title"  placeholder="Введите заголовок" />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div class="form-group note-body">
         <textarea asp-for="NoteBody" id="editor" class="form-control body" placeholder="Введите текст"></textarea>
          <script>
             ClassicEditor
@@ -24,9 +25,8 @@
         </script>
         <span asp-validation-for="NoteBody" class="text-danger"></span>
     </div>
-    <div class="error-message register" asp-validation-summary="All"></div>
     <div class="modal-user-buttons">
-        <input type="button" value="Создать" class="btn btn-success" onclick="createNote()" />
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Назад</button>
+        <input type="button" value="Создать" class="btn" onclick="CreateNote()" />
+        <button type="button" class="btn danger" data-bs-dismiss="modal">Назад</button>
     </div>     
 </form>

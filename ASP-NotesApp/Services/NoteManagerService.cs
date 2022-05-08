@@ -75,6 +75,12 @@ namespace ASP_NotesApp.Services
         public async Task EditAsync(NoteEditDTO model, int id)
         {
             var note = await _noteRepository.GetAsync(id); 
+
+            if(note.UserId != _userManager.CurrentUserId)
+            {
+                throw new NoteOwnedByAnotherUserException();
+            }
+
             if (model.Status != (int)StatusNote.Deleted && note != null)
             {
                 note.Title = model.Title;

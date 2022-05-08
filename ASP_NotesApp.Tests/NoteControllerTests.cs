@@ -58,22 +58,7 @@ namespace ASP_NotesApp.Tests
 
             var result = await controller.Create(viewModel);
 
-            Assert.IsType<RedirectToActionResult>(result);
-        }
-
-        [Fact]
-        public async void CreateModelNotValid()
-        {
-            _mockNoteRepository.Setup(m => m.Get(1).Result).Returns(GetNotesTest(1));
-            _mockIhttpContext.Setup(m => m.HttpContext.User.FindFirst(It.IsAny<string>())).Returns(new Claim("name", "1"));
-            var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContext.Object);
-            var _noteManager = new NoteManagerService(_mockNoteRepository.Object, _userManager);
-            var controller = new NoteController(_noteManager, _userManager);
-            CreateViewModel viewModel = new CreateViewModel() { NoteBody = "Hi", Title = "Hello", Pined = false };
-
-            var result = await controller.Create(viewModel);
-
-            Assert.IsType<ViewResult>(viewModel);
+            Assert.IsType<PartialViewResult>(result);
         }
 
         private List<Note> GetNotesTest(int id)

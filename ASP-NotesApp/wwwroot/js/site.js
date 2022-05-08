@@ -1,6 +1,6 @@
 ﻿const Edit = function (noteId) {
 
-    let url = "/Note/Edit?id=" + noteId;
+    var url = "/Note/Edit?id=" + noteId;
 
     $("#noteModalBodyDiv").load(url, function () {
         $("#noteModal").modal("show");
@@ -10,75 +10,103 @@
 
 const Create = function () {
 
-    let url = "/Note/Create";
+    var url = "/Note/Create";
 
     $("#noteModalBodyDiv").load(url, function () {
         $("#noteModal").modal("show");
-
     })
 }
 
-const createNote = function () {
-    var data = $("#create-note-form").serialize();
-    console.log(data);
+const EditUser = function (userId) {
+    var url = "/User/Edit?id=" + userId;
+    var data = $("#edit-user-form").serialize();
     $.ajax({
         type: 'POST',
-        url: '/Note/Create',
+        url: url,
         data: data,
-        success: function (result) {
-            var notif = $("#notificationContainer");
-            notif.addClass("active");
-            $("#notificationMessage").text("Успешно создано!");
-            setTimeout(function () {
-                notif.removeClass("active");
-            }, 1000)
+        success: function () {
+            var newName = $("#user-name-from-form").val();
+            var newSurname = $("#user-surname-from-form").val();
+            $("#user-name-edit").text(newName);
+            $("#user-surname-edit").text(newSurname);
 
-            $.ajax({
-                url: "/Note/GetNotesList",
-                type: 'GET',
-                cache: false,
-                success: function OnSuccess(data) {
-                    $("#content-note").html(data);
-                    $("#noteModal").modal("hide");
-                    resetMenuHighlight();
-                    $("#active-note").addClass('active');
-                }
-            })
-        }
-        
-    })
-}
-
-const editNote = function (status) {
-    var data = $("#edit-note-form").serialize();
-    console.log(data);
-    $.ajax({
-        type: 'POST',
-        url: '/Note/Edit',
-        data: data,
-        success: function (result) {
             var notif = $("#notificationContainer");
             notif.addClass("active");
             $("#notificationMessage").text("Успешно изменено!");
             setTimeout(function () {
                 notif.removeClass("active");
             }, 1000)
-
-            $.ajax({
-                url: "/Note/GetNotesList?status=" + status,
-                type: 'GET',
-                cache: false,
-                success: function OnSuccess(data) {
-                    $("#content-note").html(data);
-                    $("#noteModal").modal("hide");
-                
-                }
-            })
         }
     })
 }
 
-const putInCan = function (noteId, status) {
+const CreateNote = function () {
+    var data = $("#create-note-form").serialize();
+    $.ajax({
+        type: 'POST',
+        url: '/Note/Create',
+        data: data,
+        success: function (result) {
+            $("#noteModalBodyDiv").html(result);
+            var isValid = $("#noteModalBodyDiv").find('[name="IsValid"]').val() == 'True';
+            if (isValid) {
+                var notif = $("#notificationContainer");
+                notif.addClass("active");
+                $("#notificationMessage").text("Успешно создано!");
+                setTimeout(function () {
+                    notif.removeClass("active");
+                }, 1000)
+
+                $.ajax({
+                    url: "/Note/GetNotesList",
+                    type: 'GET',
+                    cache: false,
+                    success: function OnSuccess(data) {
+                        $("#noteModal").modal("hide");
+                        $("#content-note").html(data);                    
+                        ResetMenuHighlight();
+                        $("#active-note").addClass('active');
+                    }
+                })
+            }
+        }
+    })
+}
+
+const EditNote = function (status) {
+    var data = $("#edit-note-form").serialize();
+  
+    console.log(data);
+    $.ajax({
+        type: 'POST',
+        url: '/Note/Edit',
+        data: data,
+        success: function () {
+                var notif = $("#notificationContainer");
+                notif.addClass("active");
+                $("#notificationMessage").text("Успешно изменено!");
+                setTimeout(function () {
+                    notif.removeClass("active");
+                }, 1000)
+
+                $.ajax({
+                    url: "/Note/GetNotesList?status=" + status,
+                    type: 'GET',
+                    cache: false,
+                    success: function OnSuccess(data) {
+                        $("#content-note").html(data);
+                        $("#noteModal").modal("hide");
+                    }
+                })
+        },
+        error: function () {
+            $("#error-edit-note").text("Заполните поля заметки");
+        }
+
+    })
+}
+
+const PutInCanNote = function (noteId, status) {
     $.ajax({
         url: "/Note/Delete?id=" + noteId,
         type: 'POST',
@@ -102,7 +130,7 @@ const putInCan = function (noteId, status) {
     });
 }
 
-const archive = function (noteId) {
+const ArchiveNote = function (noteId) {
     $.ajax({
         url: "/Note/Archive?id=" + noteId,
         type: 'POST',
@@ -125,7 +153,7 @@ const archive = function (noteId) {
     });
 }
 
-const unArchive = function (noteId) {
+const UnArchiveNote = function (noteId) {
     $.ajax({
         url: "/Note/UnArchive?id=" + noteId,
         type: 'POST',
@@ -148,7 +176,7 @@ const unArchive = function (noteId) {
     });
 }
 
-const deleteFromTrashCan = function (noteId) {
+const DeleteFromTrashCanNote = function (noteId) {
     $.ajax({
         url: "/Note/DeleteFromTrashCan?id=" + noteId,
         type: 'POST',
@@ -171,7 +199,7 @@ const deleteFromTrashCan = function (noteId) {
     });
 }
 
-const recoverFromTrashCan = function (noteId) {
+const RecoverFromTrashCanNote = function (noteId) {
     $.ajax({
         url: "/Note/RecoverFromTrashCan?id=" + noteId,
         type: 'POST',
@@ -194,7 +222,7 @@ const recoverFromTrashCan = function (noteId) {
     });
 }
 
-const deleteNote = function (noteId, status) {
+const DeleteNote = function (noteId, status) {
     $.ajax({
         url: "/Note/DeleteFromTrashCan?id=" + noteId,
         type: 'POST',
@@ -217,17 +245,17 @@ const deleteNote = function (noteId, status) {
     });
 }
 
-const clickOnCreate = function () {
+const ClickOnCreate = function () {
     var innerArrow = document.getElementById("img");
     innerArrow.setAttribute("transform", "rotate(45)");
 }
 
-const search = function (status) {
+const Search = function (status) {
     var attribute = document.getElementById("input-search").value;
     let url = "/Note/GetNotesList?attribute=" + attribute + '&status=' + status;
 
     if (status == 0) {
-        resetMenuHighlight();
+        ResetMenuHighlight();
         $("#active-note").addClass('active');
     }
 
@@ -236,7 +264,7 @@ const search = function (status) {
         })
 }
 
-const pin = function (noteId) {
+const PinNote = function (noteId) {
     $.ajax({
         url: "/Note/PinNote?id=" + noteId,
         type: 'POST',
@@ -253,7 +281,7 @@ const pin = function (noteId) {
     });
 }
 
-const unPin = function (noteId) {
+const UnPinNote = function (noteId) {
     $.ajax({
         url: "/Note/UnPinNote?id=" + noteId,
         type: 'POST',
@@ -270,7 +298,7 @@ const unPin = function (noteId) {
     });
 }
 
-const resetMenuHighlight = function () {
+const ResetMenuHighlight = function () {
     $(".nav-link.py-3.border-bottom").each(function () {
         $(this).removeClass('active');
     })

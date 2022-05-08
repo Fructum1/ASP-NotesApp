@@ -1,33 +1,66 @@
-﻿@model ASP_NotesApp.Models.Domain.User
+﻿@model ASP_NotesApp.Models.ViewModels.User.UserEditViewModel
+
+@{
+ Layout = "~/Views/Shared/_LayoutUnauth.cshtml";
+}
 
 <div class="edit-user">
-    <form asp-action="Edit">
+    <form asp-action="Edit" id="edit-user-form">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Id" />
-        <div class="form-group title">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control title"  />
-            <span asp-validation-for="Name" class="text-danger"></span>
+        <div class="header-to-main">
+            <a asp-controller="Note" asp-action="Index"> <img src="/img/backArrow.svg" class="back-arrow" /> </a>
         </div>
-        <div class="form-group">
-            <label asp-for="Surname" class="control-label"></label>
-            <input asp-for="Surname" class="form-control body" />
-            <span asp-validation-for="Surname" class="text-danger"></span>
+        <div class="header-edit-user">
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    <img src="/img/avatar.svg" class="user-avatar-edit"/>
+                </div>
+                <div class="col-md-auto fio">
+                    <p class="user-info" id="user-name-edit">@Model.Name</p>
+                    <p class="user-info" id="user-surname-edit">@Model.Surname</p>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label asp-for="Patronymic" class="control-label"></label>
-            <input asp-for="Patronymic" class="form-control body" />
-            <span asp-validation-for="Patronymic" class="text-danger"></span>
+        <div class="row justify-content-md-center">
+            <div class="col">
+                <div class="form-group edit-user">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" id="user-name-from-form"  />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+            <div class="form-group edit-user">
+                    <label asp-for="Surname" class="control-label"></label>
+                    <input asp-for="Surname" class="form-control" id="user-surname-from-form"/>
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            </div>
         </div>
-         <div class="form-group">
-            <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control body" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group edit-user">
+                    <label asp-for="Patronymic" class="control-label"></label>
+                    <input asp-for="Patronymic" class="form-control" />
+                    <span asp-validation-for="Patronymic" class="text-danger"></span>
+                </div>
+            </div>
 
-        <div class="modal-user-buttons">
-            <input type="submit" value="Сохранить" class="btn btn-success" />
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Отмена</button>
-        </div>     
+            <div class="col">
+                <div class="form-group edit-user">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+        </div>   
     </form>
+    <div class="button-block-edit">
+        <button class="btn edit-user" onclick="EditUser(@Model.Id)">Сохранить</button>
+    </div>  
+</div>
+
+<div class="info-message" id="notificationContainer">
+    <p class="notification-message" id="notificationMessage"><b></b></p>
 </div>

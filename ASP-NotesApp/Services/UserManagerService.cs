@@ -83,12 +83,11 @@ namespace ASP_NotesApp.Services
             {
                 user.Name = model.Name;
                 user.Surname = model.Surname;
-                user.Email = model.Email;
                 user.Patronymic = model.Patronymic;
 
                 _usersRepository.Update(user);
             }
-            else if(!await UserExist(model.Email))
+            else if(!(await UserExist(model.Email)))
             {
                 user.Name = model.Name;
                 user.Surname = model.Surname;
@@ -99,7 +98,7 @@ namespace ASP_NotesApp.Services
             }
             else
             {
-                throw new UserNotFoundOrDeletedException();
+                throw new UserWithThisEmailAlreadyExistsException();
             }
         }
 

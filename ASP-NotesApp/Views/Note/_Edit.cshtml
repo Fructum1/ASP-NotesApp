@@ -1,15 +1,15 @@
 ﻿@model ASP_NotesApp.Models.Domain.Note
 
 <form asp-action="Edit" id="edit-note-form">
+    <div class="text-danger" id="error-edit-note"></div>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="Status" />
     <input type="checkbox" asp-for="Pined" class="form-control pin" />
     <div class="form-group title">
         <input asp-for="Title" class="form-control title"  placeholder="Введите заголовок" />
-        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div class="form-group note-body">
         <textarea asp-for="NoteBody" id="editor" class="form-control body" placeholder="Введите текст"></textarea>
         <script>
             ClassicEditor
@@ -24,11 +24,9 @@
                     console.error(error);
                 });
         </script>
-        <span asp-validation-for="NoteBody" class="text-danger"></span>
     </div>
-
     <div class="modal-user-buttons">
-        <input type="button" value="Сохранить" class="btn btn-success" onclick="editNote(@Model.Status)"/>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Отмена</button>
+        <input type="button" value="Сохранить" class="btn" onclick="EditNote(@Model.Status)"/>
+        <button type="button" class="btn danger" data-bs-dismiss="modal">Отмена</button>
     </div>     
 </form>

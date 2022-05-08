@@ -6,6 +6,7 @@
     else if (Model.Any(n => n.Status == (int)StatusNote.Deleted)) {
         status = 2;
     }
+    //TODO: Улучшить это
 }
 
 <div class="note-header">
@@ -17,12 +18,12 @@
                         <input name="attribute" class="form-control" id="input-search" />
                     </div>
                     <div class="col-md-1">
-                        <button type="submit" value="Применить" class="btn btn-success filter" onclick="search(@status)">Применить</button>
+                        <button type="submit" value="Применить" class="btn filter" onclick="Search(@status)">Применить</button>
                     </div>
                 </div>
             </div>
         </div>
-       <a class="button-add" onclick="Create()"><img class="note-image" onclick="clickOnCreate" src="/img/add.svg"></a>
+       <a class="button-add" onclick="Create()"><img class="note-image" onclick="СlickOnCreate" src="/img/add.svg"></a>
 </div>
 
 @if(Model.Any(n => n.Pined == true))
@@ -43,8 +44,8 @@
                         <p>@Html.Raw(mod.NoteBody)</p>
                     </div>
                     <div class="footer-note">
-                        <a class="delete-note" id="deleteForever-note-@mod.Id" onclick="deleteFromTrashCan(@mod.Id)"><img src="/img/deleteForever.svg"></a>
-                        <a class="recover-note" id="recover-note-@mod.Id" onclick="recoverFromTrashCan(@mod.Id)"><img src="/img/recover.svg"></a>
+                        <a class="delete-note" id="deleteForever-note-@mod.Id" onclick="DeleteFromTrashCanNote(@mod.Id)"><img src="/img/deleteForever.svg"></a>
+                        <a class="recover-note" id="recover-note-@mod.Id" onclick="RecoverFromTrashCanNote(@mod.Id)"><img src="/img/recover.svg"></a>
                     </div>
                 </div>       
             }
@@ -61,11 +62,11 @@ else
                 <div class="col note" id="noteItem @mod.Id">
                     @if (mod.Pined == false)
                     {
-                        <a class="pin-out" id="pin-@mod.Id" onclick="pin(@mod.Id)"><img src="/img/pin-deactive.svg" /></a>
+                        <a class="pin-out" id="pin-@mod.Id" onclick="PinNote(@mod.Id)"><img src="/img/pin-deactive.svg" /></a>
                     }
                     else
                     {
-                        <a class="unPin" id="unPin-@mod.Id" onclick="unPin(@mod.Id)"><img src="/img/pin-active.svg" /></a>
+                        <a class="unPin" id="unPin-@mod.Id" onclick="UnPinNote(@mod.Id)"><img src="/img/pin-active.svg" /></a>
                     }
                     <div class="note-content" id="noteItem @mod.Id" onclick="Edit(@mod.Id)">
                         <div class="header-note"> 
@@ -74,8 +75,8 @@ else
                         <p>@Html.Raw(mod.NoteBody)</p>
                     </div>
                     <div class="footer-note">
-                        <a class="delete-note" id="delete-note-@mod.Id" onclick="putInCan(@mod.Id, 0)"><img src="/img/deleteForever.svg"></a>
-                        <a class="archive-note" id="archive-note-@mod.Id" onclick="archive(@mod.Id)"><img id="img-archive" src="/img/archive.svg"></a>
+                        <a class="delete-note" id="delete-note-@mod.Id" onclick="PutInCan(@mod.Id, 0)"><img src="/img/deleteForever.svg"></a>
+                        <a class="archive-note" id="archive-note-@mod.Id" onclick="ArchiveNote(@mod.Id)"><img id="img-archive" src="/img/archive.svg"></a>
                     </div>
                 </div>
             }
@@ -90,11 +91,11 @@ else
                 <div class="col note" id="noteItem @mod.Id">
                     @if (mod.Pined == false)
                     {
-                        <a class="pin-out" id="pin-@mod.Id" onclick="pin(@mod.Id)"><img src="/img/pin-deactive.svg" /></a>
+                        <a class="pin-out" id="pin-@mod.Id" onclick="PinNote(@mod.Id)"><img src="/img/pin-deactive.svg" /></a>
                     }
                     else
                     {
-                        <a class="unPin" id="unPin-@mod.Id" onclick="unPin(@mod.Id)"><img src="/img/pin-active.svg" /></a>
+                        <a class="unPin" id="unPin-@mod.Id" onclick="UnPinNote(@mod.Id)"><img src="/img/pin-active.svg" /></a>
                     }
                     <div class="note-content" id="noteItem @mod.Id" onclick="Edit(@mod.Id)"> 
                         <div class="header-note"> 
@@ -103,8 +104,8 @@ else
                         <p>@Html.Raw(mod.NoteBody)</p>
                     </div>
                     <div class="footer-note">
-                        <a class="delete-note" id="delete-note-@mod.Id" onclick="putInCan(@mod.Id, 0)"><img src="/img/deleteForever.svg"></a>
-                        <a class="archive-note" id="archive-note-@mod.Id" onclick="archive(@mod.Id)"><img src="/img/archive.svg"></a>
+                        <a class="delete-note" id="delete-note-@mod.Id" onclick="PutInCanNote(@mod.Id, 0)"><img src="/img/deleteForever.svg"></a>
+                        <a class="archive-note" id="archive-note-@mod.Id" onclick="ArchiveNote(@mod.Id)"><img src="/img/archive.svg"></a>
                     </div>
                 </div>   
             }
@@ -113,11 +114,11 @@ else
                 <div class="col note" id="noteItem @mod.Id">
                     @if (mod.Pined == false)
                     {
-                        <a class="pin-out" onclick="pin(@mod.Id)"><img src="/img/pin-deactive.svg" /></a>
+                        <a class="pin-out" onclick="PinNote(@mod.Id)"><img src="/img/pin-deactive.svg" /></a>
                     }
                     else
                     {
-                        <a class="unPin" onclick="unPin(@mod.Id)"><img src="/img/pin-active.svg" /></a>
+                        <a class="unPin" onclick="UnPinNote(@mod.Id)"><img src="/img/pin-active.svg" /></a>
                     }
                     <div class="note-content" id="noteItem @mod.Id" onclick="Edit(@mod.Id)"> 
                         <div class="header-note"> 
@@ -126,8 +127,8 @@ else
                         <p>@Html.Raw(mod.NoteBody)</p>
                     </div>
                     <div class="footer-note">
-                        <a class="unArchive-note" id="unArchive-note-@mod.Id" onclick="unArchive(@mod.Id)"><img src="/img/unarhive.svg"></a>
-                        <a class="delete-note" id="delete-note-@mod.Id" onclick="putInCan(@mod.Id, 1)"><img src="/img/detele.svg"></a>
+                        <a class="unArchive-note" id="unArchive-note-@mod.Id" onclick="UnArchiveNote(@mod.Id)"><img src="/img/unarhive.svg"></a>
+                        <a class="delete-note" id="delete-note-@mod.Id" onclick="PutInCanNote(@mod.Id, 1)"><img src="/img/detele.svg"></a>
                     </div>
                 </div>       
             }

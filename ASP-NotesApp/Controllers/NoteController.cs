@@ -61,7 +61,7 @@ namespace ASP_NotesApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return PartialView("_Create", model);
+                return PartialView("_Create",model);
             }
 
             try
@@ -74,12 +74,12 @@ namespace ASP_NotesApp.Controllers
                     Title = model.Title,
                     Pined = model.Pined
                 });
-                return RedirectToAction("Index");
+                return PartialView("_Create");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return PartialView("_Create", model);
+                return PartialView("_Create",model);
             }
         }
 
@@ -106,7 +106,7 @@ namespace ASP_NotesApp.Controllers
                     NoteBody = model.NoteBody,
                     Pined = model.Pined,
                     Status = model.Status,
-                    Title = model.Title
+                    Title = model.Title,
                 }, model.Id);
                 if (model.Status == (int)StatusNote.Archived)
                 {

@@ -127,6 +127,7 @@ namespace ASP_NotesApp.Tests
         public async void EditAsyncSuccess()
         {
             Note noteToUpdate = GetNoteTest(1);
+            _mockIhttpContext.Setup(m => m.HttpContext.User.FindFirst(It.IsAny<string>())).Returns(new Claim("name", "1"));
             _mockNoteRepository.Setup(repo => repo.GetAsync(1).Result).Returns(noteToUpdate);
             _mockNoteRepository.Setup(repo => repo.Update(It.IsAny<Note>()));
             var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContext.Object);
@@ -152,7 +153,7 @@ namespace ASP_NotesApp.Tests
             Assert.Equal(JsonConvert.SerializeObject(excepted), JsonConvert.SerializeObject(noteToUpdate));
         }
         [Fact]
-        public void EditAsyncThrowException()
+        public void EditAsyncThrowExceptionNotFound()
         {
             Note noteToUpdate = GetNoteTest(1);
             _mockNoteRepository.Setup(repo => repo.GetAsync(1).Result).Returns(noteToUpdate);
@@ -161,6 +162,23 @@ namespace ASP_NotesApp.Tests
             var _noteManager = new NoteManagerService(_mockNoteRepository.Object, _userManager);
 
             Assert.ThrowsAsync<NoteNotFoundOrDeletedException>(() => _noteManager.EditAsync(new DTO.NoteEditDTO()
+            {
+                NoteBody = "World",
+                Title = "hello",
+                Pined = false,
+                Status = (int)StatusNote.Deleted,
+            }, 1));
+        }
+        [Fact]
+        public void EditAsyncThrowExceptionOwnedByAnotherUser()
+        {
+            Note noteToUpdate = GetNoteTest(1);
+            _mockNoteRepository.Setup(repo => repo.GetAsync(1).Result).Returns(noteToUpdate);
+            _mockNoteRepository.Setup(repo => repo.Update(It.IsAny<Note>()));
+            var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContext.Object);
+            var _noteManager = new NoteManagerService(_mockNoteRepository.Object, _userManager);
+
+            Assert.ThrowsAsync<NoteOwnedByAnotherUserException>(() => _noteManager.EditAsync(new DTO.NoteEditDTO()
             {
                 NoteBody = "World",
                 Title = "hello",

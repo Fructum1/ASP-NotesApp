@@ -6,10 +6,9 @@ namespace ASP_NotesApp.Models.ViewModels.Note
     public class CreateViewModel
     {
         public int Id { get; set; }
-        //[CompareOneOfNull("NoteBody", ErrorMessage = "Заполните хотя бы одно поле")]
+        [Required(ErrorMessage = "Заполните заголовок заметки")]
         public string? Title { get; set; }
-        //[CompareOneOfNull("Title", ErrorMessage = "Заполните хотя бы одно поле")]
-        [Required(ErrorMessage = "123")]
+        [Required(ErrorMessage = "Заполните тело заметки")]
         public string? NoteBody { get; set; }
         public bool Pined { get; set; }
     }

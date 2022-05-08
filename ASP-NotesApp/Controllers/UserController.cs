@@ -99,17 +99,18 @@ namespace ASP_NotesApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var user = await _userManager.GetUserAsync(id);
+            var userFromDB = await _userManager.GetUserAsync(id);
+            var user = UserEditViewModel.FromUser(userFromDB);
 
             return View("Edit", user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit([FromBody] UserEditViewModel model, int id)
+        public async Task<IActionResult> Edit(UserEditViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
 
             try
@@ -121,12 +122,12 @@ namespace ASP_NotesApp.Controllers
                     Name = model.Name,
                     Patronymic = model.Patronymic
                 }, model.Id);
-                return View();
+                return View(model);
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View();
+                return View(model);
             }
         }
     }

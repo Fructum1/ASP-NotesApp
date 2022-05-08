@@ -6,9 +6,10 @@
 <div class="container-fluid" id="content-note">
     
 </div>
-    <div class="info-message" id="notificationContainer">
-        <p class="notification-message" id="notificationMessage"><b></b></p>
-    </div>
+
+<div class="info-message" id="notificationContainer">
+    <p class="notification-message" id="notificationMessage"><b></b></p>
+</div>
 
 <div class="modal fade" id="noteModal">
     <div class="modal-dialog">
@@ -53,7 +54,7 @@
         $(document).ready(function(){
             $(".nav.nav-pills.nav-flush.flex-column.mb-auto.text-center li a").click(function(){
                 var link=$(this).attr("id");
-                resetMenuHighlight();
+                ResetMenuHighlight();
                 if(link=="active-note"){ 
                     let url = "/Note/GetNotesList?status=0"
                     $(this).toggleClass('active');
