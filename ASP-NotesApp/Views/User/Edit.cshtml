@@ -1,17 +1,19 @@
 ﻿@model ASP_NotesApp.Models.ViewModels.User.UserEditViewModel
 
 @{
- Layout = "~/Views/Shared/_LayoutUnauth.cshtml";
+    Layout = "~/Views/Shared/_LayoutUnauth.cshtml";
 }
 
 <div class="edit-user">
     <form asp-action="Edit" id="edit-user-form">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Id" />
-        <div class="header-to-main">
-            <a asp-controller="Note" asp-action="Index"> <img src="/img/backArrow.svg" class="back-arrow" /> </a>
-        </div>
+        
         <div class="header-edit-user">
+            <div class="header-to-main">
+            <a asp-controller="Note" asp-action="Index"> <img src="/img/backArrow.svg" class="user-actions" /> </a>
+            <a onclick="DeleteUser(@Model.Id)"> <img src="/img/detele.svg" class="user-actions"/></a>
+        </div>
             <div class="row justify-content-md-center">
                 <div class="col-md-auto">
                     <img src="/img/avatar.svg" class="user-avatar-edit"/>
@@ -31,11 +33,11 @@
                 </div>
             </div>
             <div class="col">
-            <div class="form-group edit-user">
+                <div class="form-group edit-user">
                     <label asp-for="Surname" class="control-label"></label>
                     <input asp-for="Surname" class="form-control" id="user-surname-from-form"/>
                     <span asp-validation-for="Surname" class="text-danger"></span>
-            </div>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -55,10 +57,19 @@
                 </div>
             </div>
         </div>   
+        <div class="button-block-edit">
+            <button class="btn edit-user">Сохранить</button>
+        </div>
     </form>
-    <div class="button-block-edit">
-        <button class="btn edit-user" onclick="EditUser(@Model.Id)">Сохранить</button>
-    </div>  
+    
+</div>
+
+<div class="modal fade" id="noteModal">
+    <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-body" id="noteModalBodyDiv"></div>             
+        </div>
+    </div>
 </div>
 
 <div class="info-message" id="notificationContainer">

@@ -7,12 +7,13 @@ namespace ASP_NotesApp.DAL
         void Create(T item);
         Task<T> CreateAsync(T item);
         void Update(T item);
-        Task<IEnumerable<T>> Get(int id);
-        T GetFirst(int id);
+        Task<IEnumerable<T>> GetAll(int id);
+        T Get(int id);
         Task<T> GetByAttributeAsync(string attribute);
         Task<T> GetAsync(int id);
         void Delete(int id);
         Task<T> DeleteAsync(int id);
         void DeleteAll();
+        void DeleteRange(IEnumerable<T> items);
     }
 }

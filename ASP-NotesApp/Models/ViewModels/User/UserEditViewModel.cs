@@ -28,6 +28,7 @@ namespace ASP_NotesApp.Models.ViewModels.User
         public UserEditViewModel() { }
         private UserEditViewModel(Domain.User user)
         {
+            Id = user.Id;
             Name = user.Name;
             Email = user.Email;
             Patronymic = user.Patronymic;

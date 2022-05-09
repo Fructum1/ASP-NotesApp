@@ -1,4 +1,5 @@
-﻿using ASP_NotesApp.Models.ViewModels;
+﻿using ASP_NotesApp.DTO.User;
+using ASP_NotesApp.Models.ViewModels;
 using ASP_NotesApp.Models.ViewModels.User;
 using ASP_NotesApp.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -89,6 +90,30 @@ namespace ASP_NotesApp.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var user = await _userManager.GetUserAsync(id);
+            return PartialView("_DeleteConfirm", user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            try
+            {
+                await _noteManager.DeleteAll();
+                await _userManager.Delete(id);
+                await _userManager.Logout(HttpContext);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View("Edit");
+            }
+        }
+
         public async Task<IActionResult> Logout()
         {
             await _userManager.Logout(HttpContext);
@@ -115,13 +140,7 @@ namespace ASP_NotesApp.Controllers
 
             try
             {
-                await _userManager.EditAsync(new DTO.User.UserEditDTO()
-                {
-                    Email = model.Email,
-                    Surname = model.Surname,
-                    Name = model.Name,
-                    Patronymic = model.Patronymic
-                }, model.Id);
+                await _userManager.EditAsync(UserEditDTO.FromUserEditViewModel(model), model.Id);
                 return View(model);
             }
             catch (Exception ex)

@@ -1,4 +1,4 @@
-﻿const Edit = function (noteId) {
+﻿function Edit(noteId) {
 
     var url = "/Note/Edit?id=" + noteId;
 
@@ -8,8 +8,7 @@
     })
 }
 
-const Create = function () {
-
+function Create() {
     var url = "/Note/Create";
 
     $("#noteModalBodyDiv").load(url, function () {
@@ -17,30 +16,16 @@ const Create = function () {
     })
 }
 
-const EditUser = function (userId) {
-    var url = "/User/Edit?id=" + userId;
-    var data = $("#edit-user-form").serialize();
-    $.ajax({
-        type: 'POST',
-        url: url,
-        data: data,
-        success: function () {
-            var newName = $("#user-name-from-form").val();
-            var newSurname = $("#user-surname-from-form").val();
-            $("#user-name-edit").text(newName);
-            $("#user-surname-edit").text(newSurname);
-
-            var notif = $("#notificationContainer");
-            notif.addClass("active");
-            $("#notificationMessage").text("Успешно изменено!");
-            setTimeout(function () {
-                notif.removeClass("active");
-            }, 1000)
-        }
-    })
+function ShowNotification(message) {
+    var notif = $("#notificationContainer");
+    $("#notificationMessage").text(message);
+    notif.fadeIn();
+    setTimeout(function () {
+        notif.fadeOut();
+    }, 1000)
 }
 
-const CreateNote = function () {
+function CreateNote() {
     var data = $("#create-note-form").serialize();
     $.ajax({
         type: 'POST',
@@ -50,12 +35,7 @@ const CreateNote = function () {
             $("#noteModalBodyDiv").html(result);
             var isValid = $("#noteModalBodyDiv").find('[name="IsValid"]').val() == 'True';
             if (isValid) {
-                var notif = $("#notificationContainer");
-                notif.addClass("active");
-                $("#notificationMessage").text("Успешно создано!");
-                setTimeout(function () {
-                    notif.removeClass("active");
-                }, 1000)
+                ShowNotification("Успешно создано!");
 
                 $.ajax({
                     url: "/Note/GetNotesList",
@@ -73,7 +53,7 @@ const CreateNote = function () {
     })
 }
 
-const EditNote = function (status) {
+function EditNote(status) {
     var data = $("#edit-note-form").serialize();
   
     console.log(data);
@@ -82,13 +62,7 @@ const EditNote = function (status) {
         url: '/Note/Edit',
         data: data,
         success: function () {
-                var notif = $("#notificationContainer");
-                notif.addClass("active");
-                $("#notificationMessage").text("Успешно изменено!");
-                setTimeout(function () {
-                    notif.removeClass("active");
-                }, 1000)
-
+                ShowNotification("Успешно изменено!");
                 $.ajax({
                     url: "/Note/GetNotesList?status=" + status,
                     type: 'GET',
@@ -106,18 +80,13 @@ const EditNote = function (status) {
     })
 }
 
-const PutInCanNote = function (noteId, status) {
+function PutInCanNote(noteId, status) {
     $.ajax({
         url: "/Note/Delete?id=" + noteId,
         type: 'POST',
 
     }).done(function (e) {
-        var notif = $("#notificationContainer");
-        notif.addClass("active");
-        $("#notificationMessage").text("Успешно удалено!");
-        setTimeout(function () {
-            notif.removeClass("active");
-        }, 1000)
+        ShowNotification("Успешно удалено!");
 
         $.ajax({
             url: "/Note/GetNotesList?status=" + status,
@@ -130,17 +99,12 @@ const PutInCanNote = function (noteId, status) {
     });
 }
 
-const ArchiveNote = function (noteId) {
+function ArchiveNote(noteId) {
     $.ajax({
         url: "/Note/Archive?id=" + noteId,
         type: 'POST',
     }).done(function (e) {
-        var notif = $("#notificationContainer");
-        notif.addClass("active");
-        $("#notificationMessage").text("Успешно архивировано!");
-        setTimeout(function () {
-            notif.removeClass("active");
-        }, 1000)
+        ShowNotification("Успешно архивировано!");
     
         $.ajax({
             url: "/Note/GetNotesList",
@@ -153,17 +117,14 @@ const ArchiveNote = function (noteId) {
     });
 }
 
-const UnArchiveNote = function (noteId) {
+
+
+function UnArchiveNote(noteId) {
     $.ajax({
         url: "/Note/UnArchive?id=" + noteId,
         type: 'POST',
     }).done(function () {
-        var notif = $("#notificationContainer");
-        notif.addClass("active");
-        $("#notificationMessage").text("Успешно разархивировано!");
-        setTimeout(function () {
-            notif.removeClass("active");
-        }, 1000)
+        ShowNotification("Успешно извлечено!");
 
         $.ajax({
             url: "/Note/GetNotesList?status=1",
@@ -176,17 +137,12 @@ const UnArchiveNote = function (noteId) {
     });
 }
 
-const DeleteFromTrashCanNote = function (noteId) {
+function DeleteFromTrashCanNote(noteId) {
     $.ajax({
         url: "/Note/DeleteFromTrashCan?id=" + noteId,
         type: 'POST',
     }).done(function () {
-        var notif = $("#notificationContainer");
-        notif.addClass("active");
-        $("#notificationMessage").text("Успешно удалено!");
-        setTimeout(function () {
-            notif.removeClass("active");
-        }, 1000)
+        ShowNotification("Успешно удалено!");
 
         $.ajax({
             url: "/Note/GetNotesList?status=2",
@@ -199,17 +155,12 @@ const DeleteFromTrashCanNote = function (noteId) {
     });
 }
 
-const RecoverFromTrashCanNote = function (noteId) {
+function RecoverFromTrashCanNote(noteId) {
     $.ajax({
         url: "/Note/RecoverFromTrashCan?id=" + noteId,
         type: 'POST',
     }).done(function () {
-        var notif = $("#notificationContainer");
-        notif.addClass("active");
-        $("#notificationMessage").text("Успешно восстановлено!");
-        setTimeout(function () {
-            notif.removeClass("active");
-        }, 1000)
+        ShowNotification("Успешно восстановлено!");
 
         $.ajax({
             url: "/Note/GetNotesList?status=2",
@@ -222,17 +173,12 @@ const RecoverFromTrashCanNote = function (noteId) {
     });
 }
 
-const DeleteNote = function (noteId, status) {
+function DeleteNote(noteId, status) {
     $.ajax({
         url: "/Note/DeleteFromTrashCan?id=" + noteId,
         type: 'POST',
     }).done(function () {
-        var notif = $("#notificationContainer");
-        notif.addClass("active");
-        $("#notificationMessage").text("Успешно удалено!");
-        setTimeout(function () {
-            notif.removeClass("active");
-        }, 1000)
+        ShowNotification("Успешно удалено!");
 
         $.ajax({
             url: "/Note/GetNotesList?status=" + status,
@@ -245,12 +191,12 @@ const DeleteNote = function (noteId, status) {
     });
 }
 
-const ClickOnCreate = function () {
+function ClickOnCreate() {
     var innerArrow = document.getElementById("img");
     innerArrow.setAttribute("transform", "rotate(45)");
 }
 
-const Search = function (status) {
+function Search(status) {
     var attribute = document.getElementById("input-search").value;
     let url = "/Note/GetNotesList?attribute=" + attribute + '&status=' + status;
 
@@ -264,7 +210,7 @@ const Search = function (status) {
         })
 }
 
-const PinNote = function (noteId) {
+function PinNote(noteId) {
     $.ajax({
         url: "/Note/PinNote?id=" + noteId,
         type: 'POST',
@@ -281,7 +227,7 @@ const PinNote = function (noteId) {
     });
 }
 
-const UnPinNote = function (noteId) {
+function UnPinNote(noteId) {
     $.ajax({
         url: "/Note/UnPinNote?id=" + noteId,
         type: 'POST',
@@ -298,7 +244,29 @@ const UnPinNote = function (noteId) {
     });
 }
 
-const ResetMenuHighlight = function () {
+function DeleteUser(userId) {
+    var url = "/User/Delete?id=" + userId;
+
+    $("#noteModalBodyDiv").load(url, function () {
+        $("#noteModal").modal("show");
+    })
+}
+
+function ConfirmDeleteUser(userId) {
+    var url = "/User/DeleteConfirmed?id=" + userId;
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        cache: false,
+        success: function () {
+            $("#noteModal").modal("hide");
+            window.location.href = '/User/Login';
+        }
+    })
+}
+
+function ResetMenuHighlight() {
     $(".nav-link.py-3.border-bottom").each(function () {
         $(this).removeClass('active');
     })

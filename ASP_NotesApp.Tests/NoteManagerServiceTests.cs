@@ -52,7 +52,7 @@ namespace ASP_NotesApp.Tests
         public void GetAllAsyncValidData()
         {
             _mockIhttpContext.Setup(m => m.HttpContext.User.FindFirst(It.IsAny<string>())).Returns(new Claim("name", "1"));   
-            _mockNoteRepository.Setup(repo => repo.Get(1).Result).Returns(GetNotesTest(1));  
+            _mockNoteRepository.Setup(repo => repo.GetAll(1).Result).Returns(GetNotesTest(1));  
             var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContext.Object);
             var _noteManager = new NoteManagerService(_mockNoteRepository.Object, _userManager);
 
@@ -70,7 +70,7 @@ namespace ASP_NotesApp.Tests
         public void GetAllAsyncNotValidData()
         {
             _mockIhttpContext.Setup(m => m.HttpContext.User.FindFirst(It.IsAny<string>())).Returns(new Claim("name", "1"));
-            _mockNoteRepository.Setup(repo => repo.Get(1).Result).Returns(GetNotesTest(1));
+            _mockNoteRepository.Setup(repo => repo.GetAll(1).Result).Returns(GetNotesTest(1));
             var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContext.Object);
             var _noteManager = new NoteManagerService(_mockNoteRepository.Object, _userManager);
 
@@ -88,7 +88,7 @@ namespace ASP_NotesApp.Tests
         public void GetAllAsyncReturnIEnumerableNotNull()
         {
             _mockIhttpContext.Setup(m => m.HttpContext.User.FindFirst(It.IsAny<string>())).Returns(new Claim("name", "1"));
-            _mockNoteRepository.Setup(repo => repo.Get(1).Result).Returns(GetNotesTest(1));
+            _mockNoteRepository.Setup(repo => repo.GetAll(1).Result).Returns(GetNotesTest(1));
             var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContext.Object);
             var _noteManager = new NoteManagerService(_mockNoteRepository.Object, _userManager);
 

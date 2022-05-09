@@ -14,8 +14,8 @@ namespace ASP_NotesApp.Tests
 {
     public class UserManagerServiceTests
     {
-        public Mock<IGenericRepository<User>> _mockUserRepository = new Mock<IGenericRepository<User>>();
-        public Mock<IHttpContextAccessor> _mockIhttpContextAccessor = new Mock<IHttpContextAccessor>();
+        public Mock<IGenericRepository<User>> _mockUserRepository = new();
+        public Mock<IHttpContextAccessor> _mockIhttpContextAccessor = new();
 
         [Fact]
         public async void EditAsyncSuccess()
@@ -64,8 +64,8 @@ namespace ASP_NotesApp.Tests
         [Fact]
         public async void RegisterAsyncSuccess()
         {
-            User user = new User() { Id = 1, Email = "fructum@gmail.com", Name = "Evgenii", Password = Crypto.HashPassword("123"), Surname = "Arg" };
-            RegisterDTO registerDTO = new RegisterDTO() { Email = "fructum@gmail.com", Name = "Evgenii", Password = Crypto.HashPassword("123"), Surname = "Arg" };
+            User user = new() { Id = 1, Email = "fructum@gmail.com", Name = "Evgenii", Password = Crypto.HashPassword("123"), Surname = "Arg" };
+            RegisterDTO registerDTO = new() { Email = "fructum@gmail.com", Name = "Evgenii", Password = Crypto.HashPassword("123"), Surname = "Arg" };
             _mockUserRepository.Setup(r => r.CreateAsync(It.IsAny<User>()));
             _mockUserRepository.Setup(r => r.GetAsync(1).Result).Returns(user);
             var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContextAccessor.Object);
@@ -78,8 +78,8 @@ namespace ASP_NotesApp.Tests
         [Fact]
         public void RegisterAsyncUserExist()
         {
-            User user = new User() { Id = 1, Email = "fructum@gmail.com", Name = "Evgenii", Password = Crypto.HashPassword("123"), Surname = "Arg" };
-            RegisterDTO registerDTO = new RegisterDTO() { Email = "fructum@gmail.com", Name = "Evgenii", Password = Crypto.HashPassword("123"), Surname = "Arg" };
+            User user = new() { Id = 1, Email = "fructum@gmail.com", Name = "Evgenii", Password = Crypto.HashPassword("123"), Surname = "Arg" };
+            RegisterDTO registerDTO = new() { Email = "fructum@gmail.com", Name = "Evgenii", Password = Crypto.HashPassword("123"), Surname = "Arg" };
             _mockUserRepository.Setup(r => r.CreateAsync(It.IsAny<User>()));
             _mockUserRepository.Setup(r => r.GetAsync(1).Result).Returns(user);
             _mockUserRepository.Setup(r => r.GetByAttributeAsync(registerDTO.Email).Result).Returns(user);
@@ -124,9 +124,9 @@ namespace ASP_NotesApp.Tests
         }
 
 
-        private User GetUserTest(int id)
+        private static User GetUserTest(int id)
         {
-            User user = new User()
+            User user = new()
             {
                 Name = "Evgenii",
                 Email = "fracs@mail.ru",

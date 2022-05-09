@@ -13,15 +13,15 @@ namespace ASP_NotesApp.Tests
 {
   public class NoteControllerTests
     {
-        public Mock<IGenericRepository<Note>> _mockNoteRepository = new Mock<IGenericRepository<Note>>();
-        public Mock<IGenericRepository<User>> _mockUserRepository = new Mock<IGenericRepository<User>>();
-        public Mock<IHttpContextAccessor> _mockIhttpContext = new Mock<IHttpContextAccessor>();
+        public Mock<IGenericRepository<Note>> _mockNoteRepository = new();
+        public Mock<IGenericRepository<User>> _mockUserRepository = new();
+        public Mock<IHttpContextAccessor> _mockIhttpContext = new();
 
         [Fact]
         public void IndexReturnsAViewResult()
         {
             var _mockRepository = new Mock<IGenericRepository<Note>>();
-            _mockRepository.Setup(m => m.Get(1).Result).Returns(GetNotesTest(1));
+            _mockRepository.Setup(m => m.GetAll(1).Result).Returns(GetNotesTest(1));
             var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContext.Object);
             var _noteManager = new NoteManagerService(_mockNoteRepository.Object, _userManager);
             var controller = new NoteController(_noteManager, _userManager);
@@ -34,7 +34,7 @@ namespace ASP_NotesApp.Tests
         [Fact]
         public async void GetNotesListReturnAPartialViewResultWithAListOfNotes()
         {
-            _mockNoteRepository.Setup(m => m.Get(1).Result).Returns(GetNotesTest(1));
+            _mockNoteRepository.Setup(m => m.GetAll(1).Result).Returns(GetNotesTest(1));
             _mockIhttpContext.Setup(m => m.HttpContext.User.FindFirst(It.IsAny<string>())).Returns(new Claim("name", "1"));
             var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContext.Object);
             var _noteManager = new NoteManagerService(_mockNoteRepository.Object, _userManager);
@@ -44,24 +44,24 @@ namespace ASP_NotesApp.Tests
 
             var viewResult = Assert.IsType<PartialViewResult>(result);
             var model = Assert.IsAssignableFrom<IEnumerable<Note>>(viewResult.Model);
-            Assert.Equal(GetNotesTest(1).Count(), model.Count());
+            Assert.Equal(GetNotesTest(1).Count, model.Count());
         }
         [Fact]
         public async void CreateRedirectWhenSuccess()
         {
-            _mockNoteRepository.Setup(m => m.Get(1).Result).Returns(GetNotesTest(1));
+            _mockNoteRepository.Setup(m => m.GetAll(1).Result).Returns(GetNotesTest(1));
             _mockIhttpContext.Setup(m => m.HttpContext.User.FindFirst(It.IsAny<string>())).Returns(new Claim("name", "1"));
             var _userManager = new UserManagerService(_mockUserRepository.Object, _mockIhttpContext.Object);
             var _noteManager = new NoteManagerService(_mockNoteRepository.Object, _userManager);
             var controller = new NoteController(_noteManager, _userManager);
-            CreateViewModel viewModel = new CreateViewModel() { NoteBody = "Hi", Title = "Hello", Pined = false };
+            CreateViewModel viewModel = new() { NoteBody = "Hi", Title = "Hello", Pined = false };
 
             var result = await controller.Create(viewModel);
 
             Assert.IsType<PartialViewResult>(result);
         }
 
-        private List<Note> GetNotesTest(int id)
+        private static List<Note> GetNotesTest(int id)
         {
             var notes = new List<Note>{
                 new Note { Id = 1, Pined = true, UserId = id, Status = 0},

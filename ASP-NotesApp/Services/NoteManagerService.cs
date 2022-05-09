@@ -19,7 +19,7 @@ namespace ASP_NotesApp.Services
 
         public async Task<Note> CreateAsync(NoteCreateDTO model)
         {
-            Note note = new Note();
+            Note note = new();
             note.Id = model.Id;
             note.Title = model.Title;
             note.NoteBody = model.NoteBody;
@@ -38,7 +38,7 @@ namespace ASP_NotesApp.Services
 
         public async Task CreateDefault(string email)
         {
-            Note note = new Note(){
+            Note note = new(){
                 UserId = await _userManager.GetCurrentUserId(email),
                 NoteBody = "Hello!",
                 Title = "Welcome to my app",
@@ -63,7 +63,7 @@ namespace ASP_NotesApp.Services
 
         public async Task<IEnumerable<Note>> GetAllAsync()
         {
-            var notes = await _noteRepository.Get(_userManager.CurrentUserId);
+            var notes = await _noteRepository.GetAll(_userManager.CurrentUserId);
             if(notes == null)
             {
                 throw new NoteNotFoundOrDeletedException();
@@ -205,7 +205,13 @@ namespace ASP_NotesApp.Services
             }
         }
 
-        private bool NoteValid(Note note)
+        public async Task DeleteAll()
+        {
+            var notes = await GetAllAsync();
+            _noteRepository.DeleteRange(notes);
+        }
+
+        private static bool NoteValid(Note note)
         {
             if(note.Status == (int)StatusNote.Active &&   
               (note.NoteBody != null || note.Title != null))

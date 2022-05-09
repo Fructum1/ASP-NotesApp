@@ -1,4 +1,5 @@
-﻿using ASP_NotesApp.Models.Enum;
+﻿using ASP_NotesApp.DTO;
+using ASP_NotesApp.Models.Enum;
 using ASP_NotesApp.Models.ViewModels.Note;
 using ASP_NotesApp.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -88,7 +89,7 @@ namespace ASP_NotesApp.Controllers
         {
             var note = await _noteManager.GetNoteAsync(id);
 
-            return PartialView("_Edit",note);
+            return PartialView("_Edit", EditViewModel.FromNote(note));
         }
 
         [HttpPost]
@@ -101,13 +102,7 @@ namespace ASP_NotesApp.Controllers
 
             try
             {
-                await _noteManager.EditAsync(new DTO.NoteEditDTO()
-                {
-                    NoteBody = model.NoteBody,
-                    Pined = model.Pined,
-                    Status = model.Status,
-                    Title = model.Title,
-                }, model.Id);
+                await _noteManager.EditAsync(NoteEditDTO.FromEditViewModel(model), model.Id);
                 if (model.Status == (int)StatusNote.Archived)
                 {
                     return RedirectToAction("Index", new {id = (int)StatusNote.Archived });

@@ -32,11 +32,13 @@ namespace ASP_NotesApp.Services
         {
             if (registerInfo != null && ! await UserExist(registerInfo.Email))
             {
-                var user = new User();
-                user.Name = registerInfo.Name;
-                user.Surname = registerInfo.Surname;
-                user.Email = registerInfo.Email;
-                user.Password = Crypto.HashPassword(registerInfo.Password);
+                var user = new User
+                {
+                    Name = registerInfo.Name,
+                    Surname = registerInfo.Surname,
+                    Email = registerInfo.Email,
+                    Password = Crypto.HashPassword(registerInfo.Password)
+                };
                 if (registerInfo.Patronymic != null) user.Patronymic = registerInfo.Patronymic;
 
                 await _usersRepository.CreateAsync(user);
@@ -113,7 +115,18 @@ namespace ASP_NotesApp.Services
             return user;
         }
 
-        private async Task Authenticate(User user, HttpContext context)
+        public async Task Delete(int id)
+        {
+            User user = await _usersRepository.GetAsync(id);
+            if (user == null)
+            {
+                throw new UserNotFoundOrDeletedException();
+            }
+
+            _usersRepository.Delete(id);
+        }
+
+        private static async Task Authenticate(User user, HttpContext context)
         {
             var claims = new ClaimsIdentity(new[]
             {

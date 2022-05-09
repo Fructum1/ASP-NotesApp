@@ -40,7 +40,7 @@ body {
     width: 70%;
 }
 
-.button.register {
+.btn.register {
     margin-right: auto;
     margin-left: auto;
     display: block;
@@ -82,8 +82,12 @@ body {
     text-align: center;
     padding-bottom: 15px;
 }
+
+.error-message {
+    color: #a70e0e;
+}
+
 .error-message.register {
-    color: red;
     padding-left: 68px;
     padding-top: 10px;
 }
@@ -263,6 +267,12 @@ input[type=checkbox]:checked:before {
     font-size: 1.8em;
 }
 
+.header-to-main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .header-note {
     width: 100%;
     justify-content: space-between;
@@ -292,10 +302,9 @@ input[type=checkbox]:checked:before {
     height: 70px;
 }
 
-.back-arrow {
-    width: 3%;
-    height: 3%;
-    position: absolute;
+.user-actions {
+    height: 50px;
+    width: 75px;
 }
 
 .button-block-edit {
@@ -318,4 +327,13 @@ input[type=checkbox]:checked:before {
     margin: auto;
     padding: 10px;
     width: 40%;
+}
+
+.delete-confirm-buttons {
+    margin-top: 100px;
+    text-align: center;
+}
+
+.header-delete {
+    text-align: center;
 }

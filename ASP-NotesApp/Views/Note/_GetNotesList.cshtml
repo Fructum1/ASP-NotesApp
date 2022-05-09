@@ -75,7 +75,7 @@ else
                         <p>@Html.Raw(mod.NoteBody)</p>
                     </div>
                     <div class="footer-note">
-                        <a class="delete-note" id="delete-note-@mod.Id" onclick="PutInCan(@mod.Id, 0)"><img src="/img/deleteForever.svg"></a>
+                        <a class="delete-note" id="delete-note-@mod.Id" onclick="PutInCanNote(@mod.Id, 0)"><img src="/img/deleteForever.svg"></a>
                         <a class="archive-note" id="archive-note-@mod.Id" onclick="ArchiveNote(@mod.Id)"><img id="img-archive" src="/img/archive.svg"></a>
                     </div>
                 </div>

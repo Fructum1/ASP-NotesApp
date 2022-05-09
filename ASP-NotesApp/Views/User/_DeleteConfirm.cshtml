@@ -1,0 +1,12 @@
+﻿@model ASP_NotesApp.Models.Domain.User
+
+<div class="header-delete">
+    <img src="/img/attention.svg" />
+    <h1>Вы уверены, что хотите удалить аккаунт?</h1>
+    <p>Это действие необратимо</p>
+</div>
+
+<div class="delete-confirm-buttons">
+    <button type="button" class="btn danger btn-lg" onclick="ConfirmDeleteUser(@Model.Id)">Удалить</button>
+    <button type="button" class="btn btn-lg" data-bs-dismiss="modal">Отмена</button>
+</div>   

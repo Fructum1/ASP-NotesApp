@@ -13,7 +13,7 @@ namespace ASP_NotesApp.Tests
         [Fact]
         public void CanChangeName()
         {
-            User user = new User() { Id = 1,Email = "fruct@yandex.ru", Name = "Evgenii" , Password = "123", Patronymic = "Evgenevich", Surname = "Antonov" };
+            User user = new() { Id = 1,Email = "fruct@yandex.ru", Name = "Evgenii" , Password = "123", Patronymic = "Evgenevich", Surname = "Antonov" };
 
             user.Name = "Sergei";
 
@@ -22,7 +22,7 @@ namespace ASP_NotesApp.Tests
         [Fact]
         public void CanChangeSurname()
         {
-            User user = new User() { Id = 1, Email = "fruct@yandex.ru", Name = "Evgenii", Password = "123", Patronymic = "Evgenevich", Surname = "Antonov" };
+            User user = new() { Id = 1, Email = "fruct@yandex.ru", Name = "Evgenii", Password = "123", Patronymic = "Evgenevich", Surname = "Antonov" };
 
             user.Surname = "Sergeev";
 
@@ -31,7 +31,7 @@ namespace ASP_NotesApp.Tests
         [Fact]
         public void CanChangePatronymic()
         {
-            User user = new User() { Id = 1, Email = "fruct@yandex.ru", Name = "Evgenii", Password = "123", Patronymic = "Evgenevich", Surname = "Antonov" };
+            User user = new() { Id = 1, Email = "fruct@yandex.ru", Name = "Evgenii", Password = "123", Patronymic = "Evgenevich", Surname = "Antonov" };
 
             user.Patronymic = "Antonovich";
 
@@ -40,7 +40,7 @@ namespace ASP_NotesApp.Tests
         [Fact]
         public void CanChangeEmail()
         {
-            User user = new User() { Id = 1, Email = "fruct@yandex.ru", Name = "Evgenii", Password = "123", Patronymic = "Evgenevich", Surname = "Antonov" };
+            User user = new() { Id = 1, Email = "fruct@yandex.ru", Name = "Evgenii", Password = "123", Patronymic = "Evgenevich", Surname = "Antonov" };
 
             user.Email = "gaglu@gmail.com";
 
@@ -49,7 +49,7 @@ namespace ASP_NotesApp.Tests
         [Fact]
         public void CanChangePassword()
         {
-            User user = new User() { Id = 1, Email = "fruct@yandex.ru", Name = "Evgenii", Password = "123", Patronymic = "Evgenevich", Surname = "Antonov" };
+            User user = new() { Id = 1, Email = "fruct@yandex.ru", Name = "Evgenii", Password = "123", Patronymic = "Evgenevich", Surname = "Antonov" };
 
             user.Password = "321";
 

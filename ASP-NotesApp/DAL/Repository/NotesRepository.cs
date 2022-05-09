@@ -1,6 +1,7 @@
 ﻿using ASP_NotesApp.DAL;
 using ASP_NotesApp.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using ASP_NotesApp.Extensions;
 
 namespace ASP_NotesApp.DAL.Repository
 {
@@ -26,7 +27,7 @@ namespace ASP_NotesApp.DAL.Repository
 
         public void Delete(int id)
         {
-            Note noteToDelete = GetFirst(id);
+            Note noteToDelete = Get(id);
 
             if (noteToDelete != null)
             {
@@ -52,7 +53,12 @@ namespace ASP_NotesApp.DAL.Repository
             return noteToDelete;
         }
 
-        public async Task<IEnumerable<Note>> Get(int id)
+        public void DeleteRange(IEnumerable<Note> items)
+        {
+            _context.Notes.RemoveRange(items);
+        }
+
+        public async Task<IEnumerable<Note>> GetAll(int id)
         {
             return await _context.Notes.Where(u => u.UserId == id).ToListAsync();
         }
@@ -62,12 +68,12 @@ namespace ASP_NotesApp.DAL.Repository
             return await _context.Notes.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public Task<Note> GetByAttributeAsync(string attribute)
+        public async Task<Note> GetByAttributeAsync(string attribute)
         {
-            throw new NotImplementedException();
+            return await _context.Notes.Where(n => n.Title.Contains(attribute) || n.NoteBody.Contains(attribute)).FirstAsync();
         }
 
-        public Note GetFirst(int id)
+        public Note Get(int id)
         {
             return _context.Notes.FirstOrDefault(u => u.Id == id);
         }

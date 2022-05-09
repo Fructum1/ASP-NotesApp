@@ -14,7 +14,7 @@ namespace ASP_NotesApp.Tests
         [Fact]
         public void CanChangeNoteBody()
         {
-            Note note = new Note() { Id = 1, CreationDate = DateTime.Today, Title = "Hello", NoteBody = "Hello", Pined = true, Status = (int)StatusNote.Active, UserId = 1 };
+            Note note = new() { Id = 1, CreationDate = DateTime.Today, Title = "Hello", NoteBody = "Hello", Pined = true, Status = (int)StatusNote.Active, UserId = 1 };
 
             note.NoteBody = "Hello world!";
 
@@ -23,7 +23,7 @@ namespace ASP_NotesApp.Tests
         [Fact]
         public void CanChangeTitle()
         {
-            Note note = new Note() { Id = 1, CreationDate = DateTime.Today, Title = "Hello", NoteBody = "Hello", Pined = true, Status = (int)StatusNote.Active, UserId = 1 };
+            Note note = new() { Id = 1, CreationDate = DateTime.Today, Title = "Hello", NoteBody = "Hello", Pined = true, Status = (int)StatusNote.Active, UserId = 1 };
 
             note.Title = "Hello world!";
 
@@ -32,7 +32,7 @@ namespace ASP_NotesApp.Tests
         [Fact]
         public void CanChangePinned()
         {
-            Note note = new Note() { Id = 1, CreationDate = DateTime.Today, Title = "Hello", NoteBody = "Hello", Pined = true, Status = (int)StatusNote.Active, UserId = 1 };
+            Note note = new() { Id = 1, CreationDate = DateTime.Today, Title = "Hello", NoteBody = "Hello", Pined = true, Status = (int)StatusNote.Active, UserId = 1 };
 
             note.Pined = false;
 
@@ -41,7 +41,7 @@ namespace ASP_NotesApp.Tests
         [Fact]
         public void CanChangeStatus()
         {
-            Note note = new Note() { Id = 1, CreationDate = DateTime.Today, Title = "Hello", NoteBody = "Hello", Pined = true, Status = (int)StatusNote.Active, UserId = 1 };
+            Note note = new() { Id = 1, CreationDate = DateTime.Today, Title = "Hello", NoteBody = "Hello", Pined = true, Status = (int)StatusNote.Active, UserId = 1 };
 
             note.Status = (int)StatusNote.Deleted;
 
